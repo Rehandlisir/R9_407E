@@ -436,11 +436,6 @@
           <GroupName>Driver/BSP</GroupName>
           <Files>
             <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\BSP\KEY\key.c</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\LED\led.c</FilePath>
@@ -481,16 +476,6 @@
               <FilePath>..\..\Drivers\BSP\Common\common.c</FilePath>
             </File>
             <File>
-              <FileName>overcurrent_protection.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\BSP\R9\overcurrent_protection.c</FilePath>
-            </File>
-            <File>
-              <FileName>stmflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\BSP\R9\stmflash.c</FilePath>
-            </File>
-            <File>
               <FileName>getadcdata.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\R9\getadcdata.c</FilePath>
@@ -514,11 +499,6 @@
               <FileName>inv_mpu_dmp_motion_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\R9\inv_mpu_dmp_motion_driver.c</FilePath>
-            </File>
-            <File>
-              <FileName>rs485.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Drivers\BSP\R9\rs485.c</FilePath>
             </File>
             <File>
               <FileName>wdg.c</FileName>
@@ -554,6 +534,11 @@
               <FileName>exception_handling.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\Exception_handling\exception_handling.c</FilePath>
+            </File>
+            <File>
+              <FileName>mlx90393.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\BSP\R9\mlx90393.c</FilePath>
             </File>
           </Files>
         </Group>

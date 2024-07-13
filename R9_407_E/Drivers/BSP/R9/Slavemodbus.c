@@ -17,7 +17,7 @@
 
 UART_HandleTypeDef g_slavemodbus_handler;     /* Modbus控制句柄(串口) */
 
-int16_t g_slaveReg[5000] ={0x0000};//g_slaveReg是提前定义好的寄存器和寄存器数据，要读取和改写的部分内容
+int16_t g_slaveReg[500] ={0x0000};//g_slaveReg是提前定义好的寄存器和寄存器数据，要读取和改写的部分内容
  
 
 void SlaveModbus_UX_IRQHandler(void)

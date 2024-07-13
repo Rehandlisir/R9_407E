@@ -2,7 +2,7 @@
 #define __MLX90393_H_
 
 #include "./SYSTEM/sys/sys.h"
-
+#include "./BSP/Common/common.h"
 //IO��������
 #define MLX90393_SDA_IN()  {GPIOB->MODER&=~(3<<(9*2));GPIOB->MODER|=0<<9*2;}	//PB9����ģʽ
 #define MLX90393_SDA_OUT() {GPIOB->MODER&=~(3<<(9*2));GPIOB->MODER|=1<<9*2;} //PB9���ģʽ
@@ -95,24 +95,25 @@ typedef  struct
 	uint8_t xhdata;
 	uint8_t yldata;
 	uint8_t yhdata;
-	uint8_t zldata;
-	uint8_t zhdata;	
-	uint8_t tldata;
-	uint8_t thdata;	
-    uint8_t statusByte;	
-	uint16_t xdata;
-	uint16_t ydata;
-	uint16_t zdata;
-	uint16_t tdata;
-    uint16_t basex;
-    uint16_t basey;
-    int16_t  deltX;
-    int16_t  delty;
+  uint8_t statusByte;	
+	int16_t xdata;
+	int16_t ydata;
+  uint16_t basex ;
+  uint16_t basey ;
+   
 	unsigned char ucMlx90393ErroType;
 	unsigned short usMlx90393StatusErroTimes;
 	
 } MLX90393Data;
 //MLX90393���в�������
+extern MLX90393Data mlxdata;
+
+#define MAX_XDATA 4000
+#define MIN_XDATA -4000
+#define MAX_YDATA 4000
+#define MIN_YDATA -4000
+#define YADC_DIM 400  
+#define XADC_DIM 400  
 
 void MLX90393_IIC_Init(void);                //��ʼ��MLX90393��IO��				 
 void MLX90393_Start(void);				//����MLX90393��ʼ�ź�

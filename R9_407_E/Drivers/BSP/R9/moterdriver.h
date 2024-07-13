@@ -161,9 +161,9 @@
 
 /**********************************腿托角度撑杆A2 (L)、腿托长度撑杆A3(L)  *************************************/
 #define GTIM_TIM4_PWM_CHY_GPIO_PORTD GPIOD
-#define GTIM_TIM4_PWM_CHY_GPIO_PIN12 GPIO_PIN_12 // T5
-#define GTIM_TIM4_PWM_CHY_GPIO_PIN13 GPIO_PIN_13
-#define GTIM_TIM4_PWM_CHY_GPIO_PIN14 GPIO_PIN_14 // T4
+#define GTIM_TIM4_PWM_CHY_GPIO_PIN12 GPIO_PIN_12 
+#define GTIM_TIM4_PWM_CHY_GPIO_PIN13 GPIO_PIN_13 // T5 腿托长度撑杆A3
+#define GTIM_TIM4_PWM_CHY_GPIO_PIN14 GPIO_PIN_14 // T4 腿托角度撑杆A2 
 #define GTIM_TIM4_PWM_CHY_GPIO_PIN15 GPIO_PIN_15
 #define GTIM_TIM4_PWM TIM4						/* TIM4 */
 #define GTIM_TIM4_PWM_CH1 TIM_CHANNEL_1			/* 通道Y,  1<= Y <=4 */

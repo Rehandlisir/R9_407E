@@ -1,22 +1,12 @@
 /**
- ****************************************************************************************************
- * @file        main.c
- * @author     R9
- * @version     V1.0
- * @date        2021-10-18
- * @brief       复成医疗R9项目V1.0 ，原底盘测试代码移植
- * @license     Copyright (c) 2022-2024, 复成医疗
- ****************************************************************************************************
- * @attention
- *
- * 实验平台:复成医疗
- * 在线视频:none
- * 技术论坛:none
- * 公司网址:none
- * 购买地址:none
- 
- ****************************************************************************************************
- */
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/User/main.c
+ * @Description  :  MAIN
+ * @Author       : lisir lisir@rehand.com
+ * @Version      : 0.0.1
+ * @LastEditors  : lisir lisir@rehand.com
+ * @LastEditTime : 2024-07-02 15:12:46
+ * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
+**/
 
 # include "./BSP/API_Schedule.h"
 #include "./BSP/task.h"

@@ -1,5 +1,4 @@
-/**
- ****************************************************************************************************
+/*
  * @file        adc.c
  * @author    lis
  * @version     V1.2
@@ -8,20 +7,20 @@
  * @license     复成医疗
  * note ：
  * 针对 R9系统的所有ADC 数据采集 ，
- *  一 、ADC1 采集10通道数据 包含
- * (1)  摇杆数据采集         PA2 PA3
- * (2)  抱闸 数据监测        PA4 PA5
- * (3)  底盘电机电流检测     PA6 PA7
- * (4)  电池电压            PC4
- * (5)  充电电流检测接口    PC5
- *
- * 二、   ADC3 数据采集  包含
+ * 一、   ADC1 数据采集  包含 8 通道
+ * (1) PA0 24V 灯线检测
+ * (2) PA1 12V 灯线检测
+ * (3) PA2 PA3 ADCX ADCY 
+   (4) PC2 PC3 左路/右路电机电流检测
+   (5) PC4     电池电量检测
+   (6) PC5     充电状态检测
+ * 二、   ADC3 数据采集  包含 10通道
  * (1) 推杆1~6  位置检测  PF5 PF3 PF4 PF6 PF8 PF7
- * (2) 推杆 1~6 的电流检测  PC2 PC3 PC0 PC1 PF9 PF10
+ * (2) 左路电机电动势检测  PF9/PF10
+ * (3) 右路电机电动势检测  PC0 PC1 
  */
 #include "./SYSTEM/delay/delay.h"
 #include "./BSP/ADC/adc.h"
-
 uint8_t g_adc1_dma_sta = 0; /* ADC1 DMA2传输状态标志, 0,未完成; 1, 已完成 */
 uint8_t g_adc3_dma_sta = 0; /* ADC3 DMA2传输状态标志, 0,未完成; 1, 已完成 */
 
@@ -84,14 +83,14 @@ void adc1_nch_dma_init(uint32_t mar)
 
     adc1_nch_dma_gpio_init(); /* GPIO 初始化 */
     /*摇杆 抱闸 底盘电机数据采集*/
-    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_2, 1, ADC_SAMPLETIME_480CYCLES); /* 设置采样规则序列1~6 */
-    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_3, 2, ADC_SAMPLETIME_480CYCLES);
-    // adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_4, 3, ADC_SAMPLETIME_480CYCLES);
-    // adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_5, 4, ADC_SAMPLETIME_480CYCLES);
-    // adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_6, 5, ADC_SAMPLETIME_480CYCLES);
-    // adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_7, 6, ADC_SAMPLETIME_480CYCLES);
-    // adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_14, 7, ADC_SAMPLETIME_480CYCLES);
-	// adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_15, 8, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_0,  1, ADC_SAMPLETIME_480CYCLES); /* 设置采样规则序列1~6 */
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_1,  2, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_2,  3, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_3,  4, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_12, 5, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_13, 6, ADC_SAMPLETIME_480CYCLES);
+    adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_14, 7, ADC_SAMPLETIME_480CYCLES);
+	adc_channel_set(&g_adc1_nch_dma_handle, ADC_CHANNEL_15, 8, ADC_SAMPLETIME_480CYCLES);
 	
     HAL_NVIC_SetPriority(ADC_ADC1_DMASx_IRQn, 2, 1);                   /* 设置DMA中断优先级为3，子优先级为3 */
     HAL_NVIC_EnableIRQ(ADC_ADC1_DMASx_IRQn);                           /* 使能DMA中断 */
@@ -102,9 +101,13 @@ void adc1_nch_dma_init(uint32_t mar)
 /**
  * @brief       多通道ADC的gpio初始化函数
  * @param       无
- * @note        此函数会被adc_nch_dma_init()调用
- * @note        PA0-ADC_CHANNEL_0、PA1-ADC_CHANNEL_1、PA2-ADC_CHANNEL_2
-                PA3-ADC_CHANNEL_3、PA4-ADC_CHANNEL_4、PA5-ADC_CHANNEL_5
+ * 一、   ADC1 数据采集  包含 8 通道
+ * (1) PA0 24V 灯线检测
+ * (2) PA1 12V 灯线检测
+ * (3) PA2 PA3 ADCX ADCY 
+   (4) PC2 PC3 左路/右路电机电流检测
+   (5) PC4     电池电量检测
+   (6) PC5     充电状态检测
 * @retval       无
  */
 
@@ -113,18 +116,18 @@ void adc1_nch_dma_gpio_init(void)
     GPIO_InitTypeDef gpioA_init_struct;
     __HAL_RCC_GPIOA_CLK_ENABLE(); /* 开启GPIOA引脚时钟 */
     /* AD采集引脚模式设置,模拟输入 */
-    gpioA_init_struct.Pin = GPIO_PIN_2 | GPIO_PIN_3;// | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; /* GPIOA2~7 */
+    gpioA_init_struct.Pin = GPIO_PIN_0 | GPIO_PIN_1| GPIO_PIN_2 | GPIO_PIN_3;
     gpioA_init_struct.Mode = GPIO_MODE_ANALOG;
     gpioA_init_struct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOA, &gpioA_init_struct);
 
-    // GPIO_InitTypeDef gpioC_init_struct;
-    // __HAL_RCC_GPIOC_CLK_ENABLE(); /* 开启GPIOC引脚时钟 */
-    // /* AD采集引脚模式设置,模拟输入 */
-    // gpioC_init_struct.Pin = GPIO_PIN_4|GPIO_PIN_5; /* GPIOA2~7 */
-    // gpioC_init_struct.Mode = GPIO_MODE_ANALOG;
-    // gpioC_init_struct.Pull = GPIO_NOPULL;
-    // HAL_GPIO_Init(GPIOC, &gpioC_init_struct);
+    GPIO_InitTypeDef gpioC_init_struct;
+    __HAL_RCC_GPIOC_CLK_ENABLE(); /* 开启GPIOC引脚时钟 */
+    /* AD采集引脚模式设置,模拟输入 */
+    gpioC_init_struct.Pin = GPIO_PIN_2|GPIO_PIN_3| GPIO_PIN_4|GPIO_PIN_5; 
+    gpioC_init_struct.Mode = GPIO_MODE_ANALOG;
+    gpioC_init_struct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOC, &gpioC_init_struct);
 }
 
 /**
@@ -159,6 +162,12 @@ void ADC_ADC1_DMASx_IRQHandler(void)
 }
 
 /***************************************多通道ADC3 采集(DMA读取)程序*****************************************/
+/*
+   二、   ADC3 数据采集  包含 10通道
+ * (1) 推杆1~6  位置检测  PF5 PF3 PF4 PF6 PF8 PF7
+ * (2) 左路电机电动势检测  PF9/PF10
+ * (3) 右路电机电动势检测  PC0 PC1
+ * */ 
 
 void adc3_nch_dma_init(uint32_t mar)
 {
@@ -201,20 +210,19 @@ void adc3_nch_dma_init(uint32_t mar)
     HAL_ADC_Init(&g_adc3_nch_dma_handle);                                            /* 初始化ADC */
 
     adc3_nch_dma_gpio_init();                                                             /* GPIO 初始化 */
-                                                                                          /* 推杆1~6 位置信息*/
+    /*推杆位置*/                                                                                     /* 推杆1~6 位置信息*/
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_15, 1, ADC_SAMPLETIME_480CYCLES); /* 设置采样规则序列1~12 */
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_9, 2, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_14, 3, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_4, 4, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_6, 5, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_5, 6, ADC_SAMPLETIME_480CYCLES);
-    /*推杆1~6 电流信息*/
-    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_12, 7, ADC_SAMPLETIME_480CYCLES); /* 设置采样规则序列1~12 */
-    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_13, 8, ADC_SAMPLETIME_480CYCLES);
+    /*电机反电动势*/
+    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_7, 7, ADC_SAMPLETIME_480CYCLES); /* 设置采样规则序列1~12 */
+    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_8, 8, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_10, 9, ADC_SAMPLETIME_480CYCLES);
     adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_11, 10, ADC_SAMPLETIME_480CYCLES);
-    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_7, 11, ADC_SAMPLETIME_480CYCLES);
-    adc_channel_set(&g_adc3_nch_dma_handle, ADC_CHANNEL_8, 12, ADC_SAMPLETIME_480CYCLES);
+   
 
     HAL_NVIC_SetPriority(ADC_ADC3_DMASx_IRQn, 2, 2);                   /* 设置DMA中断优先级为3，子优先级为3 */
     HAL_NVIC_EnableIRQ(ADC_ADC3_DMASx_IRQn);                           /* 使能DMA中断 */
@@ -226,8 +234,9 @@ void adc3_nch_dma_init(uint32_t mar)
  * @brief       多通道ADC的gpio初始化函数
  * @param       无
  * @note        此函数会被adc_nch_dma_init()调用
- * @note        PA0-ADC_CHANNEL_0、PA1-ADC_CHANNEL_1、PA2-ADC_CHANNEL_2
-                PA3-ADC_CHANNEL_3、PA4-ADC_CHANNEL_4、PA5-ADC_CHANNEL_5
+ * (1) 推杆1~6  位置检测  PF5 PF3 PF4 PF6 PF8 PF7
+ * (2) 左路电机电动势检测  PF9/PF10
+ * (3) 右路电机电动势检测  PC0 PC1
 * @retval       无
  */
 
@@ -244,7 +253,7 @@ void adc3_nch_dma_gpio_init(void)
     GPIO_InitTypeDef gpioC_init_struct;
     __HAL_RCC_GPIOC_CLK_ENABLE(); /* 开启GPIOC引脚时钟 */
     /* AD采集引脚模式设置,模拟输入 */
-    gpioC_init_struct.Pin = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_0 | GPIO_PIN_1; /* GPIOC0~3 */
+    gpioC_init_struct.Pin =  GPIO_PIN_0 | GPIO_PIN_1; /* GPIOC0~3 */
     gpioC_init_struct.Mode = GPIO_MODE_ANALOG;
     gpioC_init_struct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOC, &gpioC_init_struct);

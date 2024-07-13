@@ -39,24 +39,32 @@ typedef struct
     int32_t l_brakcurrent;
     int32_t r_brakcurrent;
 
+    int32_t LED24_CURRENT;
+    int32_t LED12_CURRENT;
 
+    uint32_t A1_ADC;
+    uint32_t A2_ADC;
+    uint32_t B1_ADC;
+    uint32_t B2_ADC;
+
+    double A1V;
+    double A2V;
+    double B1V;
+    double B2V;
+
+    double A1V_BACKEMF;
+    double A2V_BACKEMF;
+    double B1V_BACKEMF;
+    double B2V_BACKEMF;
 
     int32_t adc_x;
     int32_t adc_y;
     int32_t adc_xbase;
     int32_t adc_ybase;
-    
-
     int32_t l_current;
+    double l_currentAct;
+    double r_currentAct;
     int32_t r_current;
-
-    int32_t lift_current;
-    int32_t pedestal_current;
-    int32_t backboard_current;
-    int32_t legangle_current;
-    int32_t leglength_current;
-    int32_t support_current;
-
 
     int32_t lift_pos;
     int32_t pedestal_pos;
@@ -66,6 +74,8 @@ typedef struct
     int32_t support_pos;
     int32_t bat_v;
 	int32_t chargeI_adc;
+    double chargeI_adcAct;
+    
 } ADCDATA;
 extern ADCDATA adcdata;
 void Datareset(void);

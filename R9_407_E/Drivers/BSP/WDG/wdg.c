@@ -1,26 +1,13 @@
 /**
- ****************************************************************************************************
- * @file        wdg.c
- * @author      正点原子团队(ALIENTEK)
- * @version     V1.0
- * @date        2021-10-14
- * @brief       看门狗 驱动代码
- * @license     Copyright (c) 2020-2032, 广州市星翼电子科技有限公司
- ****************************************************************************************************
- * @attention
- *
- * 实验平台:正点原子 探索者 F407开发板
- * 在线视频:www.yuanzige.com
- * 技术论坛:www.openedv.com
- * 公司网址:www.alientek.com
- * 购买地址:openedv.taobao.com
- *
- * 修改说明
- * V1.0 20211014
- * 第一次发布
- *
- ****************************************************************************************************
- */
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/WDG/wdg.c
+ * @Description  :  WatchDog
+ * @Author       : lisir lisir@rehand.com
+ * @Version      : 0.0.1
+ * @LastEditors  : lisir lisir@rehand.com
+ * @LastEditTime : 2024-07-02 15:15:51
+ * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
+**/
+
 
 #include "./BSP/WDG/wdg.h"
 

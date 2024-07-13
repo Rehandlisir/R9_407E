@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/CodeV1.1/R9_407_V1.1/R9_407_Demo1/Drivers/BSP/API_Schedule.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/API_Schedule.c
  * @Description  :  
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-06-27 14:36:20
+ * @LastEditTime : 2024-07-12 16:45:53
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "API_Schedule.h"
@@ -15,16 +15,17 @@
  */
 struct TaskStruct TaskST[] =
 	{
-	 	{0, 1, 0, Task_linearactuatorDrive},
-		{0, 2, 0, Task_gyroscopeData},
-		{0, 2, 0, Task_UnderpanDrive},
-		{0, 1, 0, Task_GetADC_AllData},
+	 	{0, 10, 0, Task_linearactuatorDrive},
+		{0, 10, 0, Task_gyroscopeData},
+		{0, 1, 0, Task_GetMlx90393},
+		{0, 1, 0, Task_UnderpanDrive},
+		{0, 10, 0, Task_GetADC_AllData},
 		{0, 300, 0, Task_led_control},
 		{0, 1, 0, Task_ModbusSlaveExecute},
 		{0, 120, 0, Task_ultrasonicreadExecute1},
 		{0, 150, 0, Task_ultrasonicreadExecute2},
 		{0, 1, 0, Task_CanKeyRun},
-		{0, 1, 0, Task_ex_handl},
+		{0, 100, 0, Task_ex_handl},
 	};
 
 // 记录任务数量

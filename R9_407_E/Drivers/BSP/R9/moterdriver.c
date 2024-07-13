@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/CodeV1.1/R9_407_V1.1/R9_407_Demo1/Drivers/BSP/R9/moterdriver.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/moterdriver.c
  * @Description  :  
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-06-29 09:03:53
+ * @LastEditTime : 2024-07-11 15:50:00
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -449,6 +449,14 @@ void linearactuatorTest(void)
 void linearactuator(void)
 {
 
+	  /*
+	A1 : 靠背
+	A2:  腿托角度
+	A3:  腿托长度
+	B1:  举升
+	B2:  座板角度
+	C1:  前支撑轮
+	  */
     uint16_t T1_IN1 = 0;
     uint16_t T1_IN2 = 0;
 
@@ -467,24 +475,43 @@ void linearactuator(void)
     uint16_t T6_IN1 = 0;
     uint16_t T6_IN2 = 0;
     // 先屏蔽上位机信号
-    ActorLimitPara.A1_Downpos =1400;
-    ActorLimitPara.A1_Uppos = 4100; // 前倾已经超出限位计，但是机械上暂时不约束;
+    // ActorLimitPara.A1_Downpos =1400;
+    // ActorLimitPara.A1_Uppos = 4100; // 前倾已经超出限位计，但是机械上暂时不约束;
 
-    ActorLimitPara.A2_Downpos = 2200;
-    ActorLimitPara.A2_Uppos = 3000; // 上旋已经超出限位计长度，机械上暂时不约束
+    // ActorLimitPara.A2_Downpos = 2200;
+    // ActorLimitPara.A2_Uppos = 3000; // 上旋已经超出限位计长度，机械上暂时不约束
+
+    // ActorLimitPara.A3_Downpos = 0; // 下限位无约束
+    // ActorLimitPara.A3_Uppos = 3000;
+
+    // ActorLimitPara.B1_Downpos = 200;
+    // ActorLimitPara.B1_Uppos = 2500;
+
+    // ActorLimitPara.B2_Downpos = 200  ;
+    // ActorLimitPara.B2_Uppos = 2400;
+
+    // ActorLimitPara.C1_Uppos = 10000;
+    // ActorLimitPara.C2_Downpos = 0;
+
+    // 先屏蔽上位机信号
+    ActorLimitPara.A1_Downpos =0;
+    ActorLimitPara.A1_Uppos = 10000; // 前倾已经超出限位计，但是机械上暂时不约束;
+
+    ActorLimitPara.A2_Downpos = 0;
+    ActorLimitPara.A2_Uppos = 10000; // 上旋已经超出限位计长度，机械上暂时不约束
 
     ActorLimitPara.A3_Downpos = 0; // 下限位无约束
-    ActorLimitPara.A3_Uppos = 3000;
+    ActorLimitPara.A3_Uppos = 10000;
 
-    ActorLimitPara.B1_Downpos = 200;
-    ActorLimitPara.B1_Uppos = 2500;
+    ActorLimitPara.B1_Downpos = 0;
+    ActorLimitPara.B1_Uppos = 10000;
 
-    ActorLimitPara.B2_Downpos = 200  ;
-    ActorLimitPara.B2_Uppos = 2400;
+    ActorLimitPara.B2_Downpos = 0  ;
+    ActorLimitPara.B2_Uppos = 10000;
 
-    ActorLimitPara.C1_Uppos = 10000;
-    ActorLimitPara.C2_Downpos = 0;
-
+    ActorLimitPara.C1_Uppos = 0;
+    ActorLimitPara.C2_Downpos = 10000;
+    
     static float acctemp = 0, acct = 0;
     static uint8_t accdoneflage = 0;
     static float Kp;
@@ -628,10 +655,10 @@ void linearactuator(void)
         // 靠背角度撑杆A1
         __HAL_TIM_SET_COMPARE(&g_time1_pwm_chy_handle, GTIM_TIM1_PWM_CH3, T3_IN1);
         __HAL_TIM_SET_COMPARE(&g_time1_pwm_chy_handle, GTIM_TIM1_PWM_CH4, T3_IN2);
-        // 腿托角度撑杆A2
+        // 腿托长度撑杆A2
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
-        // 腿托长度撑杆A3
+        // 腿托角度撑杆A3
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH3, T4_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH4, T4_IN2);
         // 底盘举升撑杆B1(M)
@@ -725,8 +752,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T3_IN1 = 100 * (1.0 - 0);
-        T3_IN2 = 100 * (1.0 - acctemp);
+        T3_IN1 = 100 * (1.0 - acctemp);
+        T3_IN2 = 100 * (1.0 - 0);
         /*前倾推杆位置约束*/
         if (adcdata.backboard_pos > ActorLimitPara.A1_Uppos)
         {
@@ -749,8 +776,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T3_IN1 = 100 * (1.0 - acctemp);
-        T3_IN2 = 100 * (1.0 - 0);
+        T3_IN1 = 100 * (1.0 - 0);
+        T3_IN2 = 100 * (1.0 - acctemp);
         /*后倾推杆位置约束*/
         if (adcdata.backboard_pos < ActorLimitPara.A1_Downpos)
         {
@@ -830,8 +857,8 @@ void linearactuator(void)
         /*上旋腿托伸长约束*/
         if (adcdata.leglength_pos > ActorLimitPara.A3_Uppos)
         {
-            T4_IN1 = 100;
-            T4_IN2 = 100;
+            T5_IN1 = 100;
+            T5_IN2 = 100;
         }
         /*腿托旋转无约束*/
         // if (adcdata.legangle_pos > ActorLimitPara.A2_Uppos)
@@ -840,10 +867,10 @@ void linearactuator(void)
 
         //     T4_IN2 = 0;
         // }
-        // 腿托长度撑杆A3
+        // 腿托角度撑杆A3
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH3, T4_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH4, T4_IN2);
-        // 腿托角度撑杆A2
+        // 腿托长度撑杆A2
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
         break;
@@ -872,15 +899,15 @@ void linearactuator(void)
         /*腿托角度旋转约束*/
         if (adcdata.legangle_pos < ActorLimitPara.A2_Downpos)
         {
-            T5_IN1 = 100;
+            T4_IN1 = 100;
 
-            T5_IN2 = 100;
+            T4_IN2 = 100;
         }
 
-        // 腿托长度撑杆A3
+        // 腿托角度撑杆A2
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH3, T4_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH4, T4_IN2);
-        // 腿托角度撑杆A2
+        // 腿托长度撑杆A3
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
         break;
@@ -898,20 +925,21 @@ void linearactuator(void)
                 accdoneflage = 1;
                 acct = 0;
             }
-            T4_IN1 = 100 * (1.0 - acctemp);
-            T4_IN2 = 100 * (1.0 - 0);
+            T5_IN1 = 100 * (1.0 - acctemp);
+            T5_IN2 = 100 * (1.0 - 0);
             /*腿托长度约束*/
             if (adcdata.leglength_pos > ActorLimitPara.A3_Uppos)
             {
-                T4_IN1 = 100;
-                T4_IN2 = 100;
+                T5_IN1 = 100;
+                T5_IN2 = 100;
             }
         }
-        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH3, T4_IN1);
-        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH4, T4_IN2);
+        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
+        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
         break;
 
     case Legunexten_run:
+			  // 腿托独立缩短调节
         if ((acct < 200) && (accdoneflage == 0))
         {
             acct++;
@@ -922,10 +950,10 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T3_IN1 = 100 * (1.0 - 0);
-        T3_IN2 = 100 * (1.0 - acctemp);
-        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH3, T4_IN1);
-        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH4, T4_IN2);
+        T5_IN1 = 100 * (1.0 - 0);
+        T5_IN2 = 100 * (1.0 - acctemp);
+        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
+        __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
 
         break;
 

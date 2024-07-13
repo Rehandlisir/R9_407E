@@ -76,17 +76,21 @@ typedef struct {
 
 extern  AverageFilter filter_L;
 extern  AverageFilter filter_R;
+
+extern AverageFilter filter_ADCX;
+extern AverageFilter filter_ADCY;
+
 int32_t Value_limit(int32_t min_value ,int32_t current_value ,int32_t max_value);
 int32_t  Value_Resetzero(int32_t min_value ,int32_t current_value ,int32_t max_value);
-int32_t slopelimitx( int32_t value,int32_t increvalue) ;   
-int32_t slopelimity( int32_t value,int32_t increvalue) ; 
+int32_t slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue);
+int32_t slopelimity(int32_t value, int32_t increvalue,int32_t decreasvalue);
 
 double slopelimitLDuty(double value, double increvalue,double decreasvalue);
 double slopelimitRDuty(double value, double increvalue,double decreasvalue);	
 float Value_limitf(float min_value ,float current_value ,float max_value);
 void initializeFilter(AverageFilter* filter);
 double filterValue(AverageFilter* filter, double input);
-
+void filterInit(void);
 /* cubic polynomial interpolation */
 extern void mcl_cubic_poly_intpol_st_init(mcl_cubic_poly_intpol_st *cubic_poly_intpol, float intpol_ts);
 extern unsigned char mcl_cubic_poly_intpol(mcl_cubic_poly_intpol_st *cubic_poly_intpol, float init_value, float final_value, float time);

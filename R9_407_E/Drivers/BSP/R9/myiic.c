@@ -1,17 +1,15 @@
+/**
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/myiic.c
+ * @Description  :  
+ * @Author       : lisir lisir@rehand.com
+ * @Version      : 0.0.1
+ * @LastEditors  : lisir lisir@rehand.com
+ * @LastEditTime : 2024-07-02 15:16:32
+ * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
+**/
 #include "./BSP/R9/myiic.h"
 #include "./SYSTEM/delay/delay.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//REHAND STM32F407开发板
-//IIC驱动代码	   
-//rehand
-//rehand
-//
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 复成医疗 2014-2024
-//All rights reserved									  
-////////////////////////////////////////////////////////////////////////////////// 	
+
 
 //IIC初始化
 /**

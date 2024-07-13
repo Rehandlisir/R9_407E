@@ -1,27 +1,12 @@
 /**
- ****************************************************************************************************
- * @file        stmflash.c
- * @author      rehand团队(REHAND)
- * @version     V1.0
- * @date        2021-10-28
- * @brief       STM32内部FLASH读写 驱动代码
- * @license     Copyright (c) 2020-2032, 复成医疗
- ****************************************************************************************************
- * @attention
- *
- * 实验平台:rehand 探索者 F407开发板
- * 复成医疗
- * rehand
- *复成医疗
- * 复成医疗
- *
- * 修改说明
- * 复成医疗
- * 第一次发布
- *
- ****************************************************************************************************
- */
-
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/stmflash.c
+ * @Description  :  
+ * @Author       : lisir lisir@rehand.com
+ * @Version      : 0.0.1
+ * @LastEditors  : lisir lisir@rehand.com
+ * @LastEditTime : 2024-07-02 15:16:51
+ * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
+**/
 #include "./SYSTEM/usart/usart.h"
 #include "./SYSTEM/delay/delay.h"
 #include "./BSP/R9/stmflash.h"

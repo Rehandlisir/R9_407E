@@ -2,6 +2,18 @@
 #define __UNDERPANCONTROL_H
 
 #include "./SYSTEM/sys/sys.h"
+#include "math.h"
+#include "stdio.h"
+#include "./BSP/R9/brake.h"
+#include "./SYSTEM/delay/delay.h"
+#include "./BSP/Common/common.h"
+#include "./BSP/R9/Slavemodbus.h"
+#include "./BSP/R9/getadcdata.h"
+#include "./BSP/R9/moterdriver.h"
+#include "./BSP/R9/mpu6050.h"
+#include "./BSP/R9/inv_mpu.h"
+#include "./BSP/R9/inv_mpu_dmp_motion_driver.h" 
+#include "./BSP/R9/mlx90393.h"
 
 /* ???? */
 #define underpan_H 0.55 /*???*/
@@ -14,7 +26,7 @@
 #define KMPH_TO_RPM    15.0  /*1km/h 约 15RPM*/
 #define VelocityConst  7.3   /*电机速率常数 单位 RPM/V*/
 #define KMPH_TO_Voltage 2.055 /*V/KMPH*/
-#define KMPH_TO_Duty  0.087      //  0.0856  /*1km/h 占空比约 8.56%*/
+#define KMPH_TO_Duty   0.087  /*1km/h 占空比约 8.56%*/
 
 /*   */
 
@@ -40,7 +52,7 @@ typedef struct /**/
 	double set_Maximum_Steespeed;
 
 } VELOCITY_PIn;
-
+extern VELOCITY_PIn  velPlanIn1;
 typedef struct /*??????????*/
 {
 	double underpanVelocity;	  

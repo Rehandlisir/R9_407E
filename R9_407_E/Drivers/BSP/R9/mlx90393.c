@@ -3,7 +3,6 @@
 
 MLX90393Data mlxdata;
 
-
 void MLX90393_IIC_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
@@ -276,7 +275,7 @@ void vSetUpMlx90393(void)
 
     vCmdMlxAndWaiteErroTimes(MLX90393_ExitCommand, MLX90393slaveAdd_011, MlxErro_InCmdExitErro);//让其先退出所有操做
 
-    delay_ms(1); //等待 1ms
+    delay_ms(2); //等待 1ms
 
     vCmdMlxAndWaiteErroTimes(MLX90393_ExitCommand, MLX90393slaveAdd_011, MlxErro_InCmdExitErro);//复位芯片
 
@@ -285,7 +284,7 @@ void vSetUpMlx90393(void)
     if((UseSetMlxReg0Data != usReg0_3DataArr[0]) || (UseSetMlxReg1Data != usReg0_3DataArr[1]) ||
             (UseSetMlxReg2Data != usReg0_3DataArr[2]))//如果数据与预期不一样，就让其烧写下芯片
     {
-		delay_ms(1);
+		// delay_ms(1);
         vCmdMlxWriteRegAndWaite(0x00, UseSetMlxReg0Data, MLX90393slaveAdd_011, MlxErro_InWriteRegErro);   // 写寄存器 0x00
         if(mlxdata.ucMlx90393ErroType)return;
         else
@@ -311,7 +310,7 @@ void vSetUpMlx90393(void)
     if(mlxdata.ucMlx90393ErroType)return;
     else
 	{mlxdata.ucMlx90393ErroType = FALSE;}
-    //joysticBaseCal(100);
+//  joysticBaseCal(10);
 }
 
 
@@ -331,9 +330,6 @@ void vInMeasurementNormal(void)
 	mlxdata.xldata = MLX90393_Read_Byte(1) ;// 读取X 的8位低位，主机应答
 	mlxdata.yhdata = MLX90393_Read_Byte(1) ;// 读取Y 的8位高位，主机应答
 	mlxdata.yldata = MLX90393_Read_Byte(0) ;// 读取Y 的8位低位，主机非应答
-	
-	
-	
 	//低八位和高八位组合为 16位 数据转换输出
     bufx[0] = mlxdata.xldata;
     bufx[1] = mlxdata.xhdata;
@@ -342,10 +338,6 @@ void vInMeasurementNormal(void)
     
     mlxdata.xdata = ((*((uint8_t *)bufx+ 1)<< 8))| *(uint8_t *)bufx;
 	mlxdata.ydata = ((*((uint8_t *)bufy+ 1)<< 8))| *(uint8_t *)bufy;
-
-    mlxdata.deltX = mlxdata.xdata ;//- mlxdata.basex;
-    mlxdata.delty = mlxdata.ydata;// - mlxdata.basey;
-
 	MLX90393_Stop();// 读取完成发停止信号；
 	//最后 需要再次写一次 工作模式的命令
    if(ucCheckReadMlxStatusErro(mlxdata.statusByte, MlxInNoneReg_Mode))
@@ -358,28 +350,46 @@ void vInMeasurementNormal(void)
     {
         mlxdata.usMlx90393StatusErroTimes++;//如果状态位有问题 累加错误帧计数器
     }
+
+/*
+    x 方向 数据 = 基准值 - 测量值 （基准参考值 16100）
+    y 方向 数据 = 基准值 - 测量值 （基准参考值 15700）
     
+*/
+    printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
+    mlxdata.xdata =(16100 - mlxdata.xdata);
+    mlxdata.ydata =(15700 - mlxdata.ydata);
+    /*摇杆数据有效段截取*/
+    mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
+    mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
+    /*摇杆有效数据段滤波*/
+    mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
+    delay_ms(1);
+
+
 }
 
 void joysticBaseCal(uint16_t cnt)
 {   
     uint16_t k;
-
-    uint32_t sumx,sumy;
+      
+    uint32_t sumx=0,sumy=0;
     joysticDatareset();
     for(k = 0; k < cnt; k++) 
     {
         vInMeasurementNormal();
-        sumx +=  mlxdata.xdata;
-        sumy += mlxdata.ydata;
-        delay_ms(5);
+        sumx += mlxdata.xdata;
+        sumy += mlxdata.ydata;			
     } 
-    mlxdata.basex =  (sumx / cnt );
-    mlxdata.basey =  (sumy/ cnt);
+    mlxdata.basex =(uint16_t)(sumx/cnt);
+    mlxdata.basey =(uint16_t)(sumy/cnt);
 }
 
 void joysticDatareset(void)
 {
     mlxdata.basex = 0;
     mlxdata.basey = 0;
+	  
 }

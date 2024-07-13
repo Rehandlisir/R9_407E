@@ -30,7 +30,6 @@ void Hard_devInit(void)
 		// key_init();								/*按键初始化*/
 		btim_timx_int_init(10 - 1, 8400 - 1);   /*定时器中断初始化 产生固定 1ms 的定时器中断 */
 		brake_init(2000-1,84-1);                           /*抱闸初始化*/   
-		currentproInit();
 		getadcDataInit();                      /*ADC数据采集初始化*/
 		MPU_Init();                            /*陀螺仪初始化*/
 		mpu_dmp_init();
@@ -38,10 +37,17 @@ void Hard_devInit(void)
 		SlaveModbus_Init();                  /*与RK3588作为从机通讯*/
 		can_init(CAN_SJW_1TQ, CAN_BS2_6TQ, CAN_BS1_7TQ, 6, CAN_MODE_NORMAL);  /* CAN初始化, 正常模式, 波特率500Kbps */
 		iwdg_init(IWDG_PRESCALER_64, 1000);      /* 预分频数为64,重载值为1000,溢出时间约为2s */
-		initializeFilter(&filter_L);                    /*初始化滤波器*/
-		initializeFilter(&filter_R);                    /*初始化滤波器*/
+		filterInit();                    /*初始化滤波器*/
+		vSetUpMlx90393();
 		g_slaveReg[0] = 0x68;//本机设备作为Modbus从机时的设备ID
 		printf("ERROR");
+}
+
+void Task_GetMlx90393(void)
+{
+
+	vInMeasurementNormal();
+
 }
 
 /**
@@ -72,12 +78,15 @@ void Task_led_control(void)
  */
 void Task_GetADC_AllData(void)
 {
+
 	getadcData();
+	// vInMeasurementNormal();
     /*数据采集及测试*/
 	// printf("lift_pos:%d,pedestal_pos:%d,backboard_pos:%d,legangle_pos:%d,leglength_pos:%d,support_pos:%d\n",adcdata.lift_pos,adcdata.pedestal_pos,adcdata.backboard_pos,adcdata.legangle_pos,adcdata.leglength_pos,adcdata.support_pos);
 	// printf("lift_current:%d,pedestal_current:%d,backboard_current:%d,legangle_current:%d,leglength_current:%d,support_current:%d\n",adcdata.lift_current,adcdata.pedestal_current,adcdata.backboard_current,adcdata.legangle_current,adcdata.leglength_current,adcdata.support_current);
 	// printf("adcdata.l_current :%d, adcdata.r_current %d\n",adcdata.l_current,adcdata.r_current);
 	// printf("Xbase:%d,Ybase:%d,xdata:%d,ydata:%d\t\n",adcdata.adc_xbase,adcdata.adc_ybase,adcdata.adc_x,adcdata.adc_y);
+	
 }
 
 /**

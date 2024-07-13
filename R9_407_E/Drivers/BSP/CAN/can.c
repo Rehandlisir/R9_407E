@@ -1,12 +1,12 @@
 /**
- ****************************************************************************************************
- * @file        can.c
-
- ****************************************************************************************************
- * @attention
-
- ****************************************************************************************************
- */
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/CAN/can.c
+ * @Description  :  CAN
+ * @Author       : lisir lisir@rehand.com
+ * @Version      : 0.0.1
+ * @LastEditors  : lisir lisir@rehand.com
+ * @LastEditTime : 2024-07-02 15:15:26
+ * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
+**/
 
 #include "./BSP/CAN/can.h"
 //#include "./BSP/LED/led.h"

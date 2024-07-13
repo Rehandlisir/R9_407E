@@ -3,6 +3,8 @@
 
 AverageFilter filter_L;
 AverageFilter filter_R;
+AverageFilter filter_ADCX;
+AverageFilter filter_ADCY;
 int32_t Value_limit(int32_t min_value, int32_t current_value, int32_t max_value)
 {
 
@@ -33,12 +35,12 @@ int32_t Value_Resetzero(int32_t min_value, int32_t current_value, int32_t max_va
     return 0;
 }
 
-int32_t slopelimitx(int32_t value, int32_t increvalue)
+int32_t slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue)
 {
   static int32_t out_last = 0; // 上一次值
   int32_t out;
 
-  /***************** 如果第一次进入，则给 out_last 赋值 ******************/
+  /***************** 如果第一次进入，则给 out_last 赋值 ****,**************/
   static char fisrt_flag = 1;
   if (fisrt_flag == 1)
   {
@@ -51,9 +53,9 @@ int32_t slopelimitx(int32_t value, int32_t increvalue)
     out = out_last + increvalue;
   }
   /***************** 负向向递减约束 ******************/
-  else if ((value - out_last) <= (-increvalue))
+  else if ((value - out_last) <=-decreasvalue)// (-decreasvalue))
   {
-    out = out_last - increvalue;
+    out = out_last - decreasvalue;
   }
   /***************** 不满足增量约束条件直接输出 ******************/
   else
@@ -65,7 +67,7 @@ int32_t slopelimitx(int32_t value, int32_t increvalue)
   return out;
 }
 
-int32_t slopelimity(int32_t value, int32_t increvalue)
+int32_t slopelimity(int32_t value, int32_t increvalue,int32_t decreasvalue)
 {
   static int32_t out_last = 0; // 上一次值
   int32_t out;
@@ -83,9 +85,9 @@ int32_t slopelimity(int32_t value, int32_t increvalue)
     out = out_last + increvalue;
   }
   /***************** 负向向递减约束 ******************/
-  else if ((value - out_last) <= (-increvalue))
+  else if ((value - out_last) <= (-decreasvalue))
   {
-    out = out_last - increvalue;
+    out = out_last - decreasvalue;
   }
   /***************** 不满足增量约束条件直接输出 ******************/
   else
@@ -171,6 +173,14 @@ void initializeFilter(AverageFilter *filter)
     filter->window[i] = 0;
   }
   filter->index = 0;
+}
+
+void filterInit(void)
+{
+	initializeFilter(&filter_L); 
+	initializeFilter(&filter_R); 
+	initializeFilter(&filter_ADCX);
+	initializeFilter(&filter_ADCY);
 }
 
 // 算术平均滤波函数

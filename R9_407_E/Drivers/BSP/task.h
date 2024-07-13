@@ -20,25 +20,19 @@
 #include "./BSP/R9/brake.h"
 #include "./BSP/TIMER/btim.h"
 #include "./BSP/Common/common.h"
-#include "./BSP/R9/overcurrent_protection.h"
-// #include "./BSP/R9/hallcap.h"
-// #include "./BSP/R9/stmflash.h"
 #include "./BSP/R9/getadcdata.h"
 #include "./BSP/R9/mpu6050.h"
 #include "./BSP/R9/inv_mpu.h"
 #include "./BSP/R9/inv_mpu_dmp_motion_driver.h" 
-
-//#include "./BSP/R9/rs485.h"
-//#include "./BSP/R9/mlx90393.h"
-
+#include "./BSP/R9/mlx90393.h"
 #include "./BSP/WDG/wdg.h"
 #include "./BSP/DAP21/hostdap21.h"
-//#include "./BSP/R9/Hostmodbus.h"
 #include "./BSP/CAN/can.h"
 #include "./BSP/R9/Slavemodbus.h"
 #include "./BSP/Exception_handling/exception_handling.h"
 //任务列表
 void Hard_devInit(void);
+void Task_GetMlx90393(void);
 void Task_led_control(void);
 void Task_GetADC_AllData(void);
 void Task_UnderpanDrive(void);
