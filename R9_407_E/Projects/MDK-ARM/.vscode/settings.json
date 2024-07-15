@@ -16,5 +16,7 @@
         "numbers": "c",
         "cmath": "c"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "idf.portWin": "COM11",
+    "idf.customTerminalExecutableArgs": []
 }

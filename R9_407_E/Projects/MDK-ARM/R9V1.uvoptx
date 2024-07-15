@@ -22,7 +22,7 @@
   </DaveTm>
 
   <Target>
-    <TargetName>R9V1</TargetName>
+    <TargetName>R9_407E</TargetName>
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>

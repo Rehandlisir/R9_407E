@@ -2,6 +2,8 @@
 #include "./SYSTEM/delay/delay.h"
 
 MLX90393Data mlxdata;
+// #define MLX2350
+#define MLX2322
 
 void MLX90393_IIC_Init(void)
 {
@@ -352,10 +354,30 @@ void vInMeasurementNormal(void)
     }
 
 /*
+    mlx2350
     x 方向 数据 = 基准值 - 测量值 （基准参考值 16100）
     y 方向 数据 = 基准值 - 测量值 （基准参考值 15700）
+    mlx2332
+    x 方向 数据 = 基准值 - 测量值 （基准参考值 16800）
+    y 方向 数据 = 基准值 - 测量值 （基准参考值 16500）
+
     
 */
+#ifdef MLX2322
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
+    mlxdata.xdata =(16800 - mlxdata.xdata);
+    mlxdata.ydata =(16500 - mlxdata.ydata);
+    /*摇杆数据有效段截取*/
+    mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
+    mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
+    /*摇杆有效数据段滤波*/
+    mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
+    printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
+    delay_ms(1);
+
+
+#else
     printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
     mlxdata.xdata =(16100 - mlxdata.xdata);
     mlxdata.ydata =(15700 - mlxdata.ydata);
@@ -366,8 +388,8 @@ void vInMeasurementNormal(void)
     mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
     mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
-    delay_ms(1);
-
+    delay_ms(1);   
+#endif
 
 }
 

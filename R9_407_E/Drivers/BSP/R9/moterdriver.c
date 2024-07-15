@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-11 15:50:00
+ * @LastEditTime : 2024-07-15 20:27:44
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -691,10 +691,10 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T1_IN1 = 100 * (1.0 - 0);
-        T1_IN2 = 100 * (1.0 - acctemp);
-        T2_IN1 = 100 * (1.0 - 0);
-        T2_IN2 = 100 * (1.0 - Kp * acctemp);
+        T1_IN1 = 100 * (1.0 - acctemp);
+        T1_IN2 = 100 * (1.0 - 0);
+        T2_IN1 = 100 * (1.0 - Kp * acctemp);
+        T2_IN2 = 100 * (1.0 - 0);
         // 举升状态下的 限位保护
         if ( adcdata.lift_pos  > ActorLimitPara.B1_Uppos)
         {
@@ -729,10 +729,10 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T1_IN1 = 100 * (1.0 - acctemp);
-        T1_IN2 = 100 * (1.0 - 0);
-        T2_IN1 = 100 * (1.0 - Kp * acctemp);
-        T2_IN2 = 100 * (1.0 - 0);
+        T1_IN1 = 100 * (1.0 - 0);
+        T1_IN2 = 100 * (1.0 - acctemp);
+        T2_IN1 = 100 * (1.0 - 0);
+        T2_IN2 = 100 * (1.0 - Kp * acctemp);
         // 底盘举升撑杆B1(M)
         __HAL_TIM_SET_COMPARE(&g_time3_pwm_chy_handle, GTIM_TIM3_PWM_CH1, T1_IN1);
         __HAL_TIM_SET_COMPARE(&g_time3_pwm_chy_handle, GTIM_TIM3_PWM_CH2, T1_IN2);
@@ -799,8 +799,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T1_IN1 = 100 * (1.0 - acctemp);
-        T1_IN2 = 100 * (1.0 - 0);
+        T1_IN1 = 100 * (1.0 - 0);
+        T1_IN2 = 100 * (1.0 - acctemp);
         /*整体前/后倾约束*/
         // if ( adcdata.lift_pos  > ActorLimitPara.B1_Uppos)
         // {
@@ -823,8 +823,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T1_IN1 = 100 * (1.0 - 0);
-        T1_IN2 = 100 * (1.0 - acctemp);
+        T1_IN1 = 100 * (1.0 - acctemp);
+        T1_IN2 = 100 * (1.0 - 0);
         /*整体后倾约束*/
         if ( adcdata.lift_pos  > ActorLimitPara.B1_Uppos)
         {
@@ -850,10 +850,10 @@ void linearactuator(void)
             acct = 0;
         }
 
-        T4_IN1 = 100 * (1.0 - 0);
-        T4_IN2 = 100 * (1.0 - acctemp);
-        T5_IN1 = 100 * (1.0 - 0);
-        T5_IN2 = 100 * (1.0 - acctemp);
+        T4_IN1 = 100 * (1.0 - acctemp);
+        T4_IN2 = 100 * (1.0 - 0);
+        T5_IN1 = 100 * (1.0 - acctemp);
+        T5_IN2 = 100 * (1.0 - 0);
         /*上旋腿托伸长约束*/
         if (adcdata.leglength_pos > ActorLimitPara.A3_Uppos)
         {
@@ -886,10 +886,10 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T4_IN1 = 100 * (1.0 - acctemp);
-        T4_IN2 = 100 * (1.0 - 0);
-        T5_IN1 = 100 * (1.0 - acctemp);
-        T5_IN2 = 100 * (1.0 - 0);
+        T4_IN1 = 100 * (1.0 - 0);
+        T4_IN2 = 100 * (1.0 - acctemp);
+        T5_IN1 = 100 * (1.0 - 0);
+        T5_IN2 = 100 * (1.0 - acctemp);
         /*腿托下旋腿托长度无约束*/
         // if (adcdata.leglength_pos > ActorLimitPara.A3_Uppos)
         // {
@@ -913,29 +913,21 @@ void linearactuator(void)
         break;
     case Legexten_run:
         // 腿托独立伸长调节
-        if (g_slaveReg[103] == 1)
+        if ((acct < 200) && (accdoneflage == 0))
         {
-            if ((acct < 200) && (accdoneflage == 0))
-            {
-                acct++;
-                acctemp = 8.437500000000000e-12 * pow(acct, 5) - 4.218750000000000e-09 * pow(acct, 4) + 5.625000000000000e-07 * pow(acct, 3) + 0.5;
-            }
-            else
-            {
-                accdoneflage = 1;
-                acct = 0;
-            }
-            T5_IN1 = 100 * (1.0 - acctemp);
-            T5_IN2 = 100 * (1.0 - 0);
-            /*腿托长度约束*/
-            if (adcdata.leglength_pos > ActorLimitPara.A3_Uppos)
-            {
-                T5_IN1 = 100;
-                T5_IN2 = 100;
-            }
+            acct++;
+            acctemp = 8.437500000000000e-12 * pow(acct, 5) - 4.218750000000000e-09 * pow(acct, 4) + 5.625000000000000e-07 * pow(acct, 3) + 0.5;
         }
+        else
+        {
+            accdoneflage = 1;
+            acct = 0;
+        }
+        T5_IN1 = 100 * (1.0 - acctemp);
+        T5_IN2 = 100 * (1.0 - 0);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH1, T5_IN1);
         __HAL_TIM_SET_COMPARE(&g_time4_pwm_chy_handle, GTIM_TIM4_PWM_CH2, T5_IN2);
+
         break;
 
     case Legunexten_run:
@@ -968,8 +960,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T2_IN1 = 100 * (1.0 - 0);
-        T2_IN2 = 100 * (1.0 - acctemp);
+        T2_IN1 = 100 * (1.0 - acctemp);
+        T2_IN2 = 100 * (1.0 - 0);
         /*座板前倾约束*/
         if (adcdata.pedestal_pos > ActorLimitPara.B2_Uppos)
         {
@@ -991,8 +983,8 @@ void linearactuator(void)
             accdoneflage = 1;
             acct = 0;
         }
-        T2_IN1 = 100 * (1.0 - acctemp);
-        T2_IN2 = 100 * (1.0 - 0);
+        T2_IN1 = 100 * (1.0 - 0);
+        T2_IN2 = 100 * (1.0 - acctemp);
         // 座板角度撑杆B2(L)
         __HAL_TIM_SET_COMPARE(&g_time8_pwm_chy_handle, GTIM_TIM8_PWM_CH3, T2_IN1);
         __HAL_TIM_SET_COMPARE(&g_time8_pwm_chy_handle, GTIM_TIM8_PWM_CH4, T2_IN2);

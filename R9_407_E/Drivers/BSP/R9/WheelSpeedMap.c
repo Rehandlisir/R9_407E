@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-13 11:54:34
+ * @LastEditTime : 2024-07-15 10:41:48
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -232,12 +232,31 @@ if (velocity_pout.steering_angle >11/12.0*pi && velocity_pout.steering_angle < 1
 			RightMoterMove(0,velocity_pout.R_Dutycycle);
 			break;
 		case turnself_right:
-			LeftMoterMove(0,velocity_pout.L_Dutycycle*2.5);
-			RightMoterMove(0,velocity_pout.R_Dutycycle*2.5);
+		    if (g_slaveReg[73] == 1 || g_slaveReg[73] == 2)
+			{
+				LeftMoterMove(0,velocity_pout.L_Dutycycle*2.0);
+				RightMoterMove(0,velocity_pout.R_Dutycycle*2.0);
+			}
+			else
+			{
+				LeftMoterMove(0,velocity_pout.L_Dutycycle);
+				RightMoterMove(0,velocity_pout.R_Dutycycle);
+
+			}
+
 			break;
 		case turnself_left:
-			LeftMoterMove(1,velocity_pout.L_Dutycycle*2.5);
-			RightMoterMove(1,velocity_pout.R_Dutycycle*2.5);
+			if (g_slaveReg[73] == 1 || g_slaveReg[73] == 2 )
+			{
+				LeftMoterMove(1,velocity_pout.L_Dutycycle*2.0);
+				RightMoterMove(1,velocity_pout.R_Dutycycle*2.0);
+			}
+			else
+			{
+				LeftMoterMove(1,velocity_pout.L_Dutycycle);
+				RightMoterMove(1,velocity_pout.R_Dutycycle);
+			}
+
 			break;
 		default:
 			break;
@@ -265,7 +284,7 @@ if (velocity_pout.steering_angle >11/12.0*pi && velocity_pout.steering_angle < 1
 	// printf("adcx:%d,adcy:%d,Lduty:%f,Rduty:%f\r\n",velPlanIn.adcx,velPlanIn.adcy,velocity_pout.L_Dutycycle,velocity_pout.R_Dutycycle);
 }
   
-
+ 
 
 /**
  * @description: 底盘驱动程序代码 主要用到定时器 3 和 定时器 9 控制左右电机占空比
@@ -371,7 +390,7 @@ void underpanExcute(void)
 			}
 			break;
 		default:
-			velPlanIn1.set_Maximum_Strspeed = 1.0 ;
+			velPlanIn1.set_Maximum_Strspeed = 2.0 ;
 			break;
 	}
 
