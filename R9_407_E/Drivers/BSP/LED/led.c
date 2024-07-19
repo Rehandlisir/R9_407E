@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-11 13:43:00
+ * @LastEditTime : 2024-07-17 14:44:52
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -76,11 +76,11 @@ void led_init(void)
 	gpio_init_struct.Pin = LED1_GPIO_PIN;			  /* //LED1???? */
 	HAL_GPIO_Init(LED1_GPIO_PORT, &gpio_init_struct); /* ?????//LED1???? */
 
-	// ???????-----?
+
 
 	LEFT_FRONT_TURE_GPIO_CLK_ENABLE();
 	RIGHT_FRONT_TURE_GPIO_CLK_ENABLE();
-	// FRONT_MAIN_GPIO_CLK_ENABLE();
+
 
 	gpio_init_struct.Pin = LEFT_FRONT_TURE_GPIO_PIN;
 	gpio_init_struct.Mode = GPIO_MODE_OUTPUT_PP;   /* ??????? */
@@ -91,14 +91,8 @@ void led_init(void)
 	gpio_init_struct.Pin = RIGHT_FRONT_TURE_GPIO_PIN;
 	HAL_GPIO_Init(RIGHT_FRONT_TURE_GPIO_PORT, &gpio_init_struct);
 
-	// gpio_init_struct.Pin = FRONT_MAIN_GPIO_PIN;
-	// HAL_GPIO_Init(FRONT_MAIN_GPIO_PORT, &gpio_init_struct);
-
-	// ???????-----??
-
 	LEFT_BACK_TURE_GPIO_CLK_ENABLE();
 	RIGHT_BACK_TURE_GPIO_CLK_ENABLE();
-	// BACK_MAIN_GPIO_CLK_ENABLE();
 
 	gpio_init_struct.Pin = LEFT_BACK_TURE_GPIO_PIN | RIGHT_BACK_TURE_GPIO_PIN;
 	HAL_GPIO_Init(LEFT_BACK_TURE_GPIO_PORT, &gpio_init_struct);

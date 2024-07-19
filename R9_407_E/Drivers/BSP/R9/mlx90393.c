@@ -371,10 +371,10 @@ void vInMeasurementNormal(void)
     mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
     mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
     /*摇杆有效数据段滤波*/
-    mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
-    mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
-    printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
-    delay_ms(1);
+    mlxdata.xdata  =(int16_t)filterValue(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata  = (int16_t)filterValue(&filter_ADCY, mlxdata.ydata);
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
+    delay_ms(2);
 
 
 #else

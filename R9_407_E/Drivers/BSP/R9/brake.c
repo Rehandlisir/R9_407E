@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-15 20:01:38
+ * @LastEditTime : 2024-07-19 09:08:18
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/brake.h"
@@ -87,7 +87,7 @@ void brake(uint8_t flage)
 {
     if (flage)   
     {
-        brake_pwm_set(10 ,10);   /*参考设定值 7%*/
+        brake_pwm_set(0 ,0);   /*参考设定值 7%*/
     }
     else
     {
@@ -113,17 +113,19 @@ void brake_init(uint16_t arr, uint16_t psc)
  * @brief        : 离合器检测 
  * @return        {*}
 **/
-void brakeDetect(void) // 0 ： Drive  1：Push
-{
-    if  (LEFT_BREAK_STATE || RIGHT_BRAKE_STATE ) // 高电平 离合器断开
-    {
-        g_slaveReg[4] = 1;  
-    }
+// void brakeDetect(void) // 0 ： Drive  1：Push
+// {
+//     if  (LEFT_BREAK_STATE || RIGHT_BRAKE_STATE ) // 高电平 离合器断开
+//     {
+//         g_slaveReg[4] = 1;  
+//         printf("push\n");
+//     }
 
-    else
-    {
-        g_slaveReg[4] = 1;   
-    }
+//     else
+//     {
+//        g_slaveReg[4] = 1; 
+//         printf("drive\n");  
+//     }
 
     
-}
+// }

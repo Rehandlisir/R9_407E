@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-15 10:41:48
+ * @LastEditTime : 2024-07-19 09:36:29
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -124,8 +124,8 @@ void velocity_maping(VELOCITY_PIn velPlanIn)
 	velocity_pout.R_Dutycycle = filterValue(&filter_R,velocity_pout.R_Dutycycle);
 
 	/* 占空比约束*/
-	velocity_pout.L_Dutycycle = slopelimitLDuty(velocity_pout.L_Dutycycle,0.08,0.2);
-	velocity_pout.R_Dutycycle = slopelimitRDuty(velocity_pout.R_Dutycycle,0.08,0.2);
+	velocity_pout.L_Dutycycle = slopelimitLDuty(velocity_pout.L_Dutycycle,0.08,0.1);
+	velocity_pout.R_Dutycycle = slopelimitRDuty(velocity_pout.R_Dutycycle,0.08,0.1);
 	
 	velocity_pout.L_Dutycycle = Value_limitf(0.0, velocity_pout.L_Dutycycle, 0.99);
 	velocity_pout.R_Dutycycle = Value_limitf(0.0, velocity_pout.R_Dutycycle, 0.99);	
@@ -390,7 +390,7 @@ void underpanExcute(void)
 			}
 			break;
 		default:
-			velPlanIn1.set_Maximum_Strspeed = 2.0 ;
+			velPlanIn1.set_Maximum_Strspeed = 3.0 ;
 			break;
 	}
 
@@ -444,7 +444,7 @@ void underpanExcute(void)
 		// 	velPlanIn1.adcx = 0;
 		// }
 		
-		velPlanIn1.adcx = slopelimitx(mlxdata.xdata,25,60);  
+		velPlanIn1.adcx = slopelimitx(mlxdata.xdata,25,25);  
 		
 		/* Y 数据清偏移*/
 		// if (mlxdata.ydata > 0)	
@@ -459,7 +459,7 @@ void underpanExcute(void)
 		// {
 		// 	velPlanIn1.adcy = 0 ;
 		// }
-		velPlanIn1.adcy = slopelimity(mlxdata.ydata,25,60);  	  
+		velPlanIn1.adcy = slopelimity(mlxdata.ydata,25,25);  	  
 	#endif
 	velocity_maping(velPlanIn1); /*速度规划 */
 	// printf("adcx:%d,adcy:%d\n",velPlanIn1.adcx,velPlanIn1.adcy);

@@ -73,6 +73,7 @@ void getadc1Data(void)
 		if (j == 0)
 		{
 			adcdata.LED24_CURRENT = adc1_alldata;
+			
 
 		}
 
@@ -81,6 +82,7 @@ void getadc1Data(void)
 			adcdata.LED12_CURRENT = adc1_alldata;
 
 		}
+		// printf("adcdata.LED24_CURRENT:%dadcdata.LED12_CURRENT:%d\n",adcdata.LED24_CURRENT,adcdata.LED12_CURRENT);
 		if (j == 2)
 		{
 			if (X_BASEreturn)
