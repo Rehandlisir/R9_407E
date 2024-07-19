@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-17 14:44:52
+ * @LastEditTime : 2024-07-19 09:51:32
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -489,8 +489,6 @@ void led_beepControlRK3588(void)
 		RIGHT_BACK_TURE(0);
 		break;
 	case open_doublebling:
-		// g_slaveReg[13] = MainBulbState;
-		// BACK_MAIN(0);
 		LEFT_BACK_TURE(1);	
 		RIGHT_BACK_TURE(1);	
 		if (doubleflingflage)
@@ -499,15 +497,11 @@ void led_beepControlRK3588(void)
 			g_slaveReg[14] = LeftBulbState;
 			RIGHT_FRONT_TURE(0);
 			g_slaveReg[15] = RightBulbState;
-			// FRONT_MAIN(0);
-			// g_slaveReg[13] = MainBulbState;
 			doubleflingflage = 0;
 		}
 		else
 		{
 			doubleflingflage = 1;
-			// FRONT_MAIN(0);
-			// g_slaveReg[13] = MainBulbState;
 			LEFT_FRONT_TURE(1);
 			g_slaveReg[14] = LeftBulbState;
 			RIGHT_FRONT_TURE(1);
