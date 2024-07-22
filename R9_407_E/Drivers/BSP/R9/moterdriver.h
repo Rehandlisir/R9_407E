@@ -137,7 +137,7 @@
 
 /**********************************底盘举升撑杆B1(M)  *************************************/
 #define GTIM_TIM3_PWM_CHY_GPIO_PORTB GPIOB
-#define GTIM_TIM3_PWM_CHY_GPIO_PIN4 GPIO_PIN_4 // T2
+#define GTIM_TIM3_PWM_CHY_GPIO_PIN4 GPIO_PIN_4 // T1
 #define GTIM_TIM3_PWM_CHY_GPIO_PIN5 GPIO_PIN_5
 
 #define GTIM_TIM3_PWM TIM3				  /* TIM8 */

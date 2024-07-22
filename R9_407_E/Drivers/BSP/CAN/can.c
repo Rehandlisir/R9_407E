@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-02 15:15:26
+ * @LastEditTime : 2024-07-22 13:54:46
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -222,8 +222,8 @@ uint8_t can_receive_msg(uint32_t id, uint8_t *buf)
 }
 void CanKeyreceive(void)
 {
-    static uint8_t rxlen;
-    rxlen = can_receive_msg(0x01, CanKeybufReceive);  /* CAN ID = 0x12, 接收数据查询 */
+    // static uint8_t rxlen;
+    can_receive_msg(0x01, CanKeybufReceive);  /* CAN ID = 0x12, 接收数据查询 */
 }
 
 

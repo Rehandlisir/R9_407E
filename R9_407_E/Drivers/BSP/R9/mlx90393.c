@@ -55,7 +55,7 @@ void MLX90393_Stop(void)
 uint8_t MLX90393_Wait_Ack(void)
 {
 	uint8_t ucErrTime=0;
-	unsigned char staturs;
+	// unsigned char staturs;
 	MLX90393_SDA_IN();      //SDA设置为输入   
     MLX90393_SDA=1;delay_us(1);
 	MLX90393_SCL=1;delay_us(1);
@@ -268,8 +268,8 @@ void vSetUpMlx90393(void)
     
     #define IfMemoryRecallOkWaiteTime_ms 5//如果不同逻辑操作的命令之间的等待延时
     #define IfReadNextRegWaite_ms        2//每个相同命令之间的时间间隔
-    unsigned char ucReadMlxRegNumIndex = 0;//读取芯片，寄存器计数器
-    unsigned char ucReadCycCnt = 0;//循环读计数器
+    // unsigned char ucReadMlxRegNumIndex = 0;//读取芯片，寄存器计数器
+    // unsigned char ucReadCycCnt = 0;//循环读计数器
     unsigned short usReg0_3DataArr[3] = {0};
     mlxdata.ucMlx90393ErroType = 0;//清故 障信息
 

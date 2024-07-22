@@ -141,7 +141,7 @@ void Task_ultrasonicreadExecute1 (void)
 				HOST_ModbusDap21RX();//接收数据进行处理
 			}
 
-		   g_slaveReg[7] = dap21Data.dyplength1 ; /*超声波数据通过MOdbus上传至上位机进行显示/应用*/
+		   
 
 		
 		
@@ -149,14 +149,14 @@ void Task_ultrasonicreadExecute1 (void)
 
 void Task_ultrasonicreadExecute2 (void)
 {
-			HostDap21_Read03_slave(0x02,0x0101,0x0001);//参数1从机地址，参数2起始地址，参数3寄存器个数			
+			HostDap21_Read03_slave(0x02,0x0100,0x0001);//参数1从机地址，参数2起始地址，参数3寄存器个数			
 			if(modbus_dap21.Host_send_flag)
 			{
 				modbus_dap21.Host_send_flag=0;//清空发送结束数据标志位
 				HOST_ModbusDap21RX();//接收数据进行处理
 			}	
-           
-		// printf("distence1: %d,distence2: %d\n",dap21Data.dyplength1,dap21Data.dyplength2);
+       		 g_slaveReg[7] = dap21Data.dyplength1 ; /*超声波数据通过MOdbus上传至上位机进行显示/应用*/   
+			// printf("distence2: %d\n",dap21Data.dyplength2);
 	
 }
 

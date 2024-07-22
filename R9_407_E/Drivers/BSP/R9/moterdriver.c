@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-22 13:37:21
+ * @LastEditTime : 2024-07-22 17:46:45
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -484,10 +484,10 @@ void linearactuator(void)
     ActorLimitPara.A3_Downpos = 0; // 下限位无约束
     ActorLimitPara.A3_Uppos = 3000;
 
-    ActorLimitPara.B1_Downpos = 200;
+    ActorLimitPara.B1_Downpos = 300;
     ActorLimitPara.B1_Uppos = 2500;
 
-    ActorLimitPara.B2_Downpos = 200  ;
+    ActorLimitPara.B2_Downpos = 300  ;
     ActorLimitPara.B2_Uppos = 2100;
 
     ActorLimitPara.C1_Uppos = 10000;
