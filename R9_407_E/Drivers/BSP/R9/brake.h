@@ -54,6 +54,16 @@
 		__HAL_RCC_TIM9_CLK_ENABLE();   \
 	} while (0) /* TIM9 时钟使能 */
 
+
+typedef struct 
+{
+    uint8_t  detect_time; /*检测计时 该设置需大于 200ms*/
+    uint8_t detect_falge; /*需检测标志位*/
+   
+}STRUCT_BRAKE;
+
+extern STRUCT_BRAKE struc_brake;
+
 /******************************************************************************************/
 
 

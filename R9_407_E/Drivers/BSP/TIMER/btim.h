@@ -26,7 +26,10 @@
 #define __BTIM_H
 
 #include "./SYSTEM/sys/sys.h"
-
+#include "./BSP/API_Schedule.h"
+#include "./BSP/R9/Slavemodbus.h"
+#include "./BSP/DAP21/hostdap21.h"
+#include "./BSP/Communicationheartbeat/Comheartbeat.h"
 
 /******************************************************************************************/
 /* 基本定时器 定义 */

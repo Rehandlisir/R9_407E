@@ -14,7 +14,11 @@
         "getadcdata.h": "c",
         "exception_handling.h": "c",
         "numbers": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "hostdap21.h": "c",
+        "comheartbeat.h": "c",
+        "btim.h": "c",
+        "stm32f4xx_hal.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "idf.portWin": "COM11",

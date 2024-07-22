@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-19 09:51:32
+ * @LastEditTime : 2024-07-19 16:20:07
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -56,7 +56,7 @@ void Main_PwmSet(uint8_t flage)
 	}
 	else
 	{
-		LED_pwm_Set(20,20);
+		LED_pwm_Set(0,0);
 	}
 	
 }

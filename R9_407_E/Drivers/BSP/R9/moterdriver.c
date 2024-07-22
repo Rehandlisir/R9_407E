@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-15 20:27:44
+ * @LastEditTime : 2024-07-22 13:37:21
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -475,42 +475,42 @@ void linearactuator(void)
     uint16_t T6_IN1 = 0;
     uint16_t T6_IN2 = 0;
     // 先屏蔽上位机信号
-    // ActorLimitPara.A1_Downpos =1400;
-    // ActorLimitPara.A1_Uppos = 4100; // 前倾已经超出限位计，但是机械上暂时不约束;
+    ActorLimitPara.A1_Downpos =1400;
+    ActorLimitPara.A1_Uppos = 4100; // 前倾已经超出限位计，但是机械上暂时不约束;
 
-    // ActorLimitPara.A2_Downpos = 2200;
-    // ActorLimitPara.A2_Uppos = 3000; // 上旋已经超出限位计长度，机械上暂时不约束
-
-    // ActorLimitPara.A3_Downpos = 0; // 下限位无约束
-    // ActorLimitPara.A3_Uppos = 3000;
-
-    // ActorLimitPara.B1_Downpos = 200;
-    // ActorLimitPara.B1_Uppos = 2500;
-
-    // ActorLimitPara.B2_Downpos = 200  ;
-    // ActorLimitPara.B2_Uppos = 2400;
-
-    // ActorLimitPara.C1_Uppos = 10000;
-    // ActorLimitPara.C2_Downpos = 0;
-
-    // 先屏蔽上位机信号
-    ActorLimitPara.A1_Downpos =0;
-    ActorLimitPara.A1_Uppos = 10000; // 前倾已经超出限位计，但是机械上暂时不约束;
-
-    ActorLimitPara.A2_Downpos = 0;
-    ActorLimitPara.A2_Uppos = 10000; // 上旋已经超出限位计长度，机械上暂时不约束
+    ActorLimitPara.A2_Downpos = 2200;
+    ActorLimitPara.A2_Uppos = 3000; // 上旋已经超出限位计长度，机械上暂时不约束
 
     ActorLimitPara.A3_Downpos = 0; // 下限位无约束
-    ActorLimitPara.A3_Uppos = 10000;
+    ActorLimitPara.A3_Uppos = 3000;
 
-    ActorLimitPara.B1_Downpos = 0;
-    ActorLimitPara.B1_Uppos = 10000;
+    ActorLimitPara.B1_Downpos = 200;
+    ActorLimitPara.B1_Uppos = 2500;
 
-    ActorLimitPara.B2_Downpos = 0  ;
-    ActorLimitPara.B2_Uppos = 10000;
+    ActorLimitPara.B2_Downpos = 200  ;
+    ActorLimitPara.B2_Uppos = 2100;
 
-    ActorLimitPara.C1_Uppos = 0;
-    ActorLimitPara.C2_Downpos = 10000;
+    ActorLimitPara.C1_Uppos = 10000;
+    ActorLimitPara.C2_Downpos = 0;
+
+    // 先屏蔽上位机信号
+    // ActorLimitPara.A1_Downpos =0;
+    // ActorLimitPara.A1_Uppos = 10000; // 前倾已经超出限位计，但是机械上暂时不约束;
+
+    // ActorLimitPara.A2_Downpos = 0;
+    // ActorLimitPara.A2_Uppos = 10000; // 上旋已经超出限位计长度，机械上暂时不约束
+
+    // ActorLimitPara.A3_Downpos = 0; // 下限位无约束
+    // ActorLimitPara.A3_Uppos = 10000;
+
+    // ActorLimitPara.B1_Downpos = 0;
+    // ActorLimitPara.B1_Uppos = 10000;
+
+    // ActorLimitPara.B2_Downpos = 0  ;
+    // ActorLimitPara.B2_Uppos = 10000;
+
+    // ActorLimitPara.C1_Uppos = 0;
+    // ActorLimitPara.C2_Downpos = 10000;
     
     static float acctemp = 0, acct = 0;
     static uint8_t accdoneflage = 0;
@@ -701,12 +701,14 @@ void linearactuator(void)
             T1_IN1 = 100;
             T1_IN2 = 100;
             //垂直举升到极限状态下，底座推杆应该停止
-            T2_IN1 = 100;
-            T2_IN2 = 100;
+            // T2_IN1 = 100;
+            // T2_IN2 = 100;
         }
 
         if (adcdata.pedestal_pos > ActorLimitPara.B2_Uppos)
         {
+            // T1_IN1 = 100;
+            // T1_IN2 = 100;
             T2_IN1 = 100;
             T2_IN2 = 100;
         }
@@ -804,8 +806,8 @@ void linearactuator(void)
         /*整体前/后倾约束*/
         // if ( adcdata.lift_pos  > ActorLimitPara.B1_Uppos)
         // {
-        //     T1_IN1 = 200;
-        //     T1_IN2 = 200;
+        //     T1_IN1 = 100;
+        //     T1_IN2 = 100;
         // }
         // 底盘举升撑杆B1(M)
         __HAL_TIM_SET_COMPARE(&g_time3_pwm_chy_handle, GTIM_TIM3_PWM_CH1, T1_IN1);

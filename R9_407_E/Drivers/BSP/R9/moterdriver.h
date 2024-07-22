@@ -10,6 +10,7 @@
 
 #ifndef __MOTERDRIVER_H
 #define __MOTERDRIVER_H
+//#include "./R9/stm32f4xx_hal_gpio_ex.h"
 #include "./SYSTEM/sys/sys.h"
 #include "./BSP/CAN/can.h"
 #include "./BSP/R9/Slavemodbus.h"

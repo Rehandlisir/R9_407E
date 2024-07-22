@@ -4,14 +4,15 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-19 09:08:18
+ * @LastEditTime : 2024-07-22 09:37:44
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/brake.h"
-
+STRUCT_BRAKE struc_brake;
 #include "./SYSTEM/delay/delay.h"
 #include "./BSP/R9/Slavemodbus.h"
 TIM_HandleTypeDef g_time9_pwm_chy_handle;
+
 
 /**
  * @brief        : TIME9init
@@ -58,7 +59,7 @@ void brakestatedetec_init(void)
     BRAKE2_GPIO_CLK_ENABLE();
     gpio_init_struct.Pin = BRAKE1_GPIO_PIN;                       
     gpio_init_struct.Mode = GPIO_MODE_INPUT;                    
-    gpio_init_struct.Pull = GPIO_PULLDOWN;                       
+    gpio_init_struct.Pull = GPIO_PULLUP;                       
     gpio_init_struct.Speed = GPIO_SPEED_FREQ_HIGH;              
     HAL_GPIO_Init(BRAKE1_GPIO_PORT, &gpio_init_struct); 
     gpio_init_struct.Pin = BRAKE2_GPIO_PIN; 

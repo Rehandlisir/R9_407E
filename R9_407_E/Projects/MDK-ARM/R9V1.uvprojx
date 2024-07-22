@@ -540,6 +540,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\R9\mlx90393.c</FilePath>
             </File>
+            <File>
+              <FileName>Comheartbeat.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\BSP\Communicationheartbeat\Comheartbeat.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

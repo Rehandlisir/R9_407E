@@ -30,6 +30,7 @@
 #include "./BSP/CAN/can.h"
 #include "./BSP/R9/Slavemodbus.h"
 #include "./BSP/Exception_handling/exception_handling.h"
+#include "./BSP/Communicationheartbeat/Comheartbeat.h"
 //任务列表
 void Hard_devInit(void);
 void Task_GetMlx90393(void);
@@ -43,4 +44,5 @@ void Task_ultrasonicreadExecute1 (void);
 void Task_ultrasonicreadExecute2 (void);
 void Task_CanKeyRun(void);
 void Task_ex_handl(void);
+void Task_Comsdetect(void);
 #endif

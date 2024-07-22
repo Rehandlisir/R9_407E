@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-19 09:36:29
+ * @LastEditTime : 2024-07-22 11:21:23
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -60,10 +60,10 @@ void velocity_maping(VELOCITY_PIn velPlanIn)
 		// printf("velocity_pout.underpanVelocity: %f\n",velocity_pout.underpanVelocity);
 		/*左右轮目标线速度 Km/h*/
 		velocity_pout.L_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_pout.underpanVelocity/MAX_YDATA  * \
-		(sin(velocity_pout.steering_angle-pi/6.0) + cos(velocity_pout.steering_angle-pi/6.0)) / 1.365 ;
+		(sin(velocity_pout.steering_angle-pi/6.0) + cos(velocity_pout.steering_angle-pi/6.0)) / 1.0 ;
 
 		velocity_pout.R_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_pout.underpanVelocity/MAX_YDATA * \
-		(sin(velocity_pout.steering_angle+pi/6.0) - cos(velocity_pout.steering_angle+pi/6.0)) / 1.365 ;
+		(sin(velocity_pout.steering_angle+pi/6.0) - cos(velocity_pout.steering_angle+pi/6.0)) / 1.0 ;
 	#endif 
 	/*模拟型摇杆*/
 	#if defined JOYSTIC_AI
@@ -79,7 +79,7 @@ void velocity_maping(VELOCITY_PIn velPlanIn)
 		(sin(velocity_pout.steering_angle+pi/6.0) - cos(velocity_pout.steering_angle+pi/6.0)) / 1.0 ;
 	#endif	
 	
-	velocity_pout.presentation_velocity = (fabs(velocity_pout.L_Velocity) + fabs(velocity_pout.R_Velocity))/2.0;
+	velocity_pout.presentation_velocity = (fabs(velocity_pout.L_Velocity) + fabs(velocity_pout.R_Velocity))/2.0/1.3;
 	velocity_pout.presentation_velocity = Value_limitf (0,velocity_pout.presentation_velocity ,velPlanIn.set_Maximum_Strspeed);
 	g_slaveReg[3] = (uint16_t)(velocity_pout.presentation_velocity * 100); // RK3588 接受车速信息KM/H
 
@@ -88,31 +88,31 @@ void velocity_maping(VELOCITY_PIn velPlanIn)
 	/*左右目标轮线速度 转换为 占空比根据实际情况进行修正，常数为修正系数*/
 	if  (velPlanIn.set_Maximum_Strspeed == 1.0)
 	{
-		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.6;
-		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.6;
+		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.172;
+		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.172;
 	}
-	else if (velPlanIn.set_Maximum_Strspeed == 2.0)
-	{
-		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.2;
-		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.2;
-	}
-	else if (velPlanIn.set_Maximum_Strspeed == 3.0)
-	{
-		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.125;
-		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.125;
-	}
-	else if (velPlanIn.set_Maximum_Strspeed == 4.0)
-	{
+	// else if (velPlanIn.set_Maximum_Strspeed == 2.0)
+	// {
+	// 	velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.2;
+	// 	velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.2;
+	// }
+	// else if (velPlanIn.set_Maximum_Strspeed == 3.0)
+	// {
+	// 	velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.125;
+	// 	velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.125;
+	// }
+	// else if (velPlanIn.set_Maximum_Strspeed == 4.0)
+	// {
 
-		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.09;
-		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.09;		
-	}
-	else if (velPlanIn.set_Maximum_Strspeed == 5.0)
-	{
-		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.07;
-		velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.07;		
+	// 	velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.09;
+	// 	velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.09;		
+	// }
+	// else if (velPlanIn.set_Maximum_Strspeed == 5.0)
+	// {
+	// 	velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty*1.07;
+	// 	velocity_pout.R_Dutycycle = fabs(velocity_pout.R_Velocity) * KMPH_TO_Duty*1.07;		
 		
-	}
+	// }
 	else 
 	{
 		velocity_pout.L_Dutycycle = fabs(velocity_pout.L_Velocity) * KMPH_TO_Duty;
@@ -234,13 +234,13 @@ if (velocity_pout.steering_angle >11/12.0*pi && velocity_pout.steering_angle < 1
 		case turnself_right:
 		    if (g_slaveReg[73] == 1 || g_slaveReg[73] == 2)
 			{
-				LeftMoterMove(0,velocity_pout.L_Dutycycle*2.0);
-				RightMoterMove(0,velocity_pout.R_Dutycycle*2.0);
+				LeftMoterMove(0,velocity_pout.L_Dutycycle*1.5);
+				RightMoterMove(0,velocity_pout.R_Dutycycle*1.5);
 			}
-			else
+			else /*上位机数据通讯OK后需更改*/
 			{
-				LeftMoterMove(0,velocity_pout.L_Dutycycle);
-				RightMoterMove(0,velocity_pout.R_Dutycycle);
+				LeftMoterMove(0,velocity_pout.L_Dutycycle*1.5);
+				RightMoterMove(0,velocity_pout.R_Dutycycle*1.5);
 
 			}
 
@@ -251,10 +251,10 @@ if (velocity_pout.steering_angle >11/12.0*pi && velocity_pout.steering_angle < 1
 				LeftMoterMove(1,velocity_pout.L_Dutycycle*2.0);
 				RightMoterMove(1,velocity_pout.R_Dutycycle*2.0);
 			}
-			else
+			else/*上位机数据通讯OK后需更改*/
 			{
-				LeftMoterMove(1,velocity_pout.L_Dutycycle);
-				RightMoterMove(1,velocity_pout.R_Dutycycle);
+				LeftMoterMove(1,velocity_pout.L_Dutycycle*2.0);
+				RightMoterMove(1,velocity_pout.R_Dutycycle*2.0);
 			}
 
 			break;
@@ -279,7 +279,14 @@ if (velocity_pout.steering_angle >11/12.0*pi && velocity_pout.steering_angle < 1
 	if (velPlanIn.adcx < -50 || velPlanIn.adcx > 50 || velPlanIn.adcy > 50 || velPlanIn.adcy < -50)
 
 	{
+		// 按照硬件工程师的说法此处需要使用定时器间断执行
+		// if (struc_brake.detect_falge)
+		// {
 			brake(0);
+			// struc_brake.detect_falge = 0 ;
+			// struc_brake.detect_time = 0;
+		// }
+			
 	}
 	// printf("adcx:%d,adcy:%d,Lduty:%f,Rduty:%f\r\n",velPlanIn.adcx,velPlanIn.adcy,velocity_pout.L_Dutycycle,velocity_pout.R_Dutycycle);
 }
@@ -390,7 +397,7 @@ void underpanExcute(void)
 			}
 			break;
 		default:
-			velPlanIn1.set_Maximum_Strspeed = 3.0 ;
+			velPlanIn1.set_Maximum_Strspeed = 2.0 ;
 			break;
 	}
 
@@ -444,7 +451,7 @@ void underpanExcute(void)
 		// 	velPlanIn1.adcx = 0;
 		// }
 		
-		velPlanIn1.adcx = slopelimitx(mlxdata.xdata,25,25);  
+		velPlanIn1.adcx = slopelimitx(mlxdata.xdata,35,25);  
 		
 		/* Y 数据清偏移*/
 		// if (mlxdata.ydata > 0)	
@@ -459,7 +466,7 @@ void underpanExcute(void)
 		// {
 		// 	velPlanIn1.adcy = 0 ;
 		// }
-		velPlanIn1.adcy = slopelimity(mlxdata.ydata,25,25);  	  
+		velPlanIn1.adcy = slopelimity(mlxdata.ydata,35,25);  	  
 	#endif
 	velocity_maping(velPlanIn1); /*速度规划 */
 	// printf("adcx:%d,adcy:%d\n",velPlanIn1.adcx,velPlanIn1.adcy);

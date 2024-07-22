@@ -2,13 +2,13 @@
 #include "./SYSTEM/delay/delay.h"
 
 MLX90393Data mlxdata;
-// #define MLX2350
-#define MLX2322
+#define MLX2350
+// #define MLX2322
 
 void MLX90393_IIC_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
-    
+
     __HAL_RCC_GPIOB_CLK_ENABLE();   //使能GPIOB时钟
     
     //PB8,9初始化设置
@@ -378,7 +378,7 @@ void vInMeasurementNormal(void)
 
 
 #else
-    printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
     mlxdata.xdata =(16100 - mlxdata.xdata);
     mlxdata.ydata =(15700 - mlxdata.ydata);
     /*摇杆数据有效段截取*/
@@ -388,8 +388,8 @@ void vInMeasurementNormal(void)
     mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
     mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
-    delay_ms(1);   
-#endif
+    delay_ms(2);   
+#endif  
 
 }
 

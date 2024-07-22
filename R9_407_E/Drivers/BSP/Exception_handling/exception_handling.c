@@ -8,17 +8,21 @@ void ex_handl_brake(void)
 	if (LEFT_BREAK_STATE && (!RIGHT_BRAKE_STATE )) //LEFT push
 	{
 		g_slaveReg[4] = 1;
+		g_slaveReg[27] = 1;
 		// printf("push\n");
 	}
     else if ((!LEFT_BREAK_STATE) && RIGHT_BRAKE_STATE ) //RIGHT push
 	{
+		g_slaveReg[4] = 1;
 		g_slaveReg[27] = 1;
+
 		// printf("push\n");
 
 	}
 	else if ((LEFT_BREAK_STATE) && RIGHT_BRAKE_STATE ) // LEFT && RIGHT push
 	{
 		g_slaveReg[4] = 1;
+		g_slaveReg[27] = 1;
 		// printf("push\n");
 	}
 	else //LEFT && RIGHT  DRIVE

@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-18 18:11:24
+ * @LastEditTime : 2024-07-22 09:22:59
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "API_Schedule.h"
@@ -15,7 +15,7 @@
  */
 struct TaskStruct TaskST[] =
 	{
-	 	{0, 10, 0, Task_linearactuatorDrive},
+	 	{0, 1, 0, Task_linearactuatorDrive},
 		{0, 10, 0, Task_gyroscopeData},
 		{0, 1, 0, Task_GetMlx90393},
 		{0, 1, 0, Task_UnderpanDrive},
@@ -23,7 +23,7 @@ struct TaskStruct TaskST[] =
 		{0, 300, 0, Task_led_control},
 		{0, 1, 0, Task_ModbusSlaveExecute},
 		{0, 120, 0, Task_ultrasonicreadExecute1},
-		{0, 150, 0, Task_ultrasonicreadExecute2},
+		// {0, 150, 0, Task_ultrasonicreadExecute2},
 		{0, 1, 0, Task_CanKeyRun},
 		{0, 10, 0, Task_ex_handl},
 	};

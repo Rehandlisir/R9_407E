@@ -107,6 +107,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
+
 /** @addtogroup STM32F4xx_HAL_Driver
   * @{
   */
@@ -174,6 +175,8 @@ void HAL_GPIO_Init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
   assert_param(IS_GPIO_MODE(GPIO_Init->Mode));
   assert_param(IS_GPIO_PULL(GPIO_Init->Pull));
 
+//	__HAL_RCC_AFIO_CLK_ENABLE();
+//	__HAL_AFIO_REMAP_SWJ_NOJTAG(); //MCU复位后，PA13/14/15 & PB3/4默认配置为JTAG功能，在此关闭；
   /* Configure the port pins */
   for(position = 0U; position < GPIO_NUMBER; position++)
   {

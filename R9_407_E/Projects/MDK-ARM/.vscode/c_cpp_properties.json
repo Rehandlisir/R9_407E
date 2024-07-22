@@ -136,6 +136,7 @@
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407E\\R9_407_E\\Drivers\\BSP\\PID",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407E\\R9_407_E\\Drivers\\BSP\\CAN",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407E\\R9_407_E\\Drivers\\BSP\\Exception_handling",
+                "c:\\Users\\fu\\Desktop\\Code\\R9_407E\\R9_407_E\\Drivers\\BSP\\Communicationheartbeat",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407E\\R9_407_E\\Drivers\\STM32F4xx_HAL_Driver\\Src"
             ],
             "defines": [

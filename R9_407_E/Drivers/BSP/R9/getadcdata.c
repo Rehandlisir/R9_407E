@@ -218,7 +218,7 @@ void getadc3Data(void)
 		// printf("adcdata.A1V :%f,adcdata.A2V:%f,adcdata.B1V:%f ,adcdata.B2V:%f\n",\
 		adcdata.A1V,adcdata.A2V ,adcdata.B1V,adcdata.B2V);
 	}
-
+   
 
 	g_adc3_dma_sta = 0;						/* 清除DMA采集完成状态标志 */
 	adc3_nch_dma_enable(ADC3_DMA_BUF_SIZE); /* 启动下一次ADC1 DMA多通道采集 */

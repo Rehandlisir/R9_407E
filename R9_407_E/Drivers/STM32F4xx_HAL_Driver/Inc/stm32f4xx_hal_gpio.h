@@ -295,6 +295,37 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
                               ((SPEED) == GPIO_SPEED_FREQ_HIGH) || ((SPEED) == GPIO_SPEED_FREQ_VERY_HIGH))
 #define IS_GPIO_PULL(PULL) (((PULL) == GPIO_NOPULL) || ((PULL) == GPIO_PULLUP) || \
                             ((PULL) == GPIO_PULLDOWN))
+///*R9新增*/
+///**
+//  * @brief Enable the Serial wire JTAG configuration
+//  * @note  ENABLE: Full SWJ (JTAG-DP + SW-DP): Reset State
+//  * @retval None
+//  */
+//#define __HAL_AFIO_REMAP_SWJ_ENABLE()  AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_RESET)
+// 
+///**
+//  * @brief Enable the Serial wire JTAG configuration
+//  * @note  NONJTRST: Full SWJ (JTAG-DP + SW-DP) but without NJTRST
+//  * @retval None
+//  */
+//#define __HAL_AFIO_REMAP_SWJ_NONJTRST()  AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_NOJNTRST)
+// 
+///**
+//  * @brief Enable the Serial wire JTAG configuration
+//  * @note  NOJTAG: JTAG-DP Disabled and SW-DP Enabled
+//  * @retval None
+//  */
+// 
+//#define __HAL_AFIO_REMAP_SWJ_NOJTAG()  AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_JTAGDISABLE)
+// 
+///**
+//  * @brief Disable the Serial wire JTAG configuration
+//  * @note  DISABLE: JTAG-DP Disabled and SW-DP Disabled
+//  * @retval None
+//  */
+//#define __HAL_AFIO_REMAP_SWJ_DISABLE()  AFIO_DBGAFR_CONFIG(AFIO_MAPR_SWJ_CFG_DISABLE)
+
+///*新增结束*/
 /**
   * @}
   */
