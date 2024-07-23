@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-22 17:46:45
+ * @LastEditTime : 2024-07-23 11:25:46
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -673,11 +673,41 @@ void linearactuator(void)
        // printf("iddle");
         break;
     case Stand_run:
+        if ((acct < 200) && (accdoneflage == 0)) // 0 --- 0.95  200ms
+        {
+            acct++;
+            acctemp = 8.437500000000000e-12 * pow(acct, 5) - 4.218750000000000e-09 * pow(acct, 4) + 5.625000000000000e-07 * pow(acct, 3) + 0.5;
+        }
+        else
+        {
+            accdoneflage = 1;
+            acct = 0;
+        }
 
+        T6_IN1 = 100 * (1.0 - acctemp);
+        T6_IN2 = 100 * (1.0 - 0);
+
+        __HAL_TIM_SET_COMPARE(&g_time12_pwm_chy_handle, GTIM_TIM12_PWM_CH1, T6_IN1);
+        __HAL_TIM_SET_COMPARE(&g_time12_pwm_chy_handle, GTIM_TIM12_PWM_CH2, T6_IN2);
+        // printf("Stand_run\n");
         break;
 
     case Site_run:
-
+        if ((acct < 200) && (accdoneflage == 0)) // 0 --- 0.95  200ms
+        {
+            acct++;
+            acctemp = 8.437500000000000e-12 * pow(acct, 5) - 4.218750000000000e-09 * pow(acct, 4) + 5.625000000000000e-07 * pow(acct, 3) + 0.5;
+        }
+        else
+        {
+            accdoneflage = 1;
+            acct = 0;
+        }
+        T6_IN1 = 100 * (1.0 - 0);
+        T6_IN2 = 100 * (1.0 - acctemp);
+        __HAL_TIM_SET_COMPARE(&g_time12_pwm_chy_handle, GTIM_TIM12_PWM_CH1, T6_IN1);
+        __HAL_TIM_SET_COMPARE(&g_time12_pwm_chy_handle, GTIM_TIM12_PWM_CH2, T6_IN2);
+        // printf("Site_run\n");
         break;
 
     case Lift_run:
