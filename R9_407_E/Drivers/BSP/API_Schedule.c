@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-22 15:10:01
+ * @LastEditTime : 2024-07-24 09:46:06
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "API_Schedule.h"
@@ -26,6 +26,7 @@ struct TaskStruct TaskST[] =
 	    {0, 500, 0, Task_ultrasonicreadExecute2},
 		{0, 1, 0, Task_CanKeyRun},
 		{0, 10, 0, Task_ex_handl},
+		{0, 1, 0, Task_Comsdetect},
 	};
 
 // 记录任务数量

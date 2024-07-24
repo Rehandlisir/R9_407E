@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/CodeV1.1/R9_407_V1.1/R9_407_Demo1/Drivers/BSP/R9/moterdriver.h
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/moterdriver.h
  * @Description  :  Moter Drive Header
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-06-24 09:53:14
+ * @LastEditTime : 2024-07-24 12:11:19
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -17,6 +17,7 @@
 #include "math.h"
 #include "stdio.h"
 #include "./BSP/R9/getadcdata.h"
+#include "./BSP/Communicationheartbeat/Comheartbeat.h"
 /**********************************底盘L 电机1 驱动输出 TIME1 CH1 CH2 CH1N CH2N  *************************************/
 #define ATIM_TIM1_CPLM_CH1_GPIO_PORT            GPIOA
 #define ATIM_TIM1_CPLM_CH1_GPIO_PIN             GPIO_PIN_8

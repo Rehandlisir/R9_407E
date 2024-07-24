@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-23 11:25:46
+ * @LastEditTime : 2024-07-24 12:17:18
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -517,14 +517,23 @@ void linearactuator(void)
     static float Kp;
 
     Kp = B1MAX * SEAT_LIFTDROPRATIO / 2.0 + 0.5;
-
+    /*如果上下位机通讯失败则下位机主动复位上位机姿态操作指令*/
+    if(comheartstate.com_state == Fail)
+    {
+        g_slaveReg[66] = 0;
+        g_slaveReg[67] = 0;
+        g_slaveReg[68] = 0;
+        g_slaveReg[69] = 0; 
+        g_slaveReg[70] = 0;
+        g_slaveReg[71] = 0; 
+        g_slaveReg[72] = 0;
+    }
     /*座椅举升控制*/
     if (CanKeybufReceive[1] == SEAT_LIFT || g_slaveReg[67] == 1)
     {
         linerun_state = Lift_run;
         g_slaveReg[16] = 1;
     }
-
     else if (CanKeybufReceive[1] == SEAT_DROP || g_slaveReg[67] == 2)
     {
 
@@ -866,7 +875,7 @@ void linearactuator(void)
         // 底盘举升撑杆B1(M)
         __HAL_TIM_SET_COMPARE(&g_time3_pwm_chy_handle, GTIM_TIM3_PWM_CH1, T1_IN1);
         __HAL_TIM_SET_COMPARE(&g_time3_pwm_chy_handle, GTIM_TIM3_PWM_CH2, T1_IN2);
-       printf("houqing_run\n");
+    //    printf("houqing_run\n");
         break;
 
     case Legspintop_run:

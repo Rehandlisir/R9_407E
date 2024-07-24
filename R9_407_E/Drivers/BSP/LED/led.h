@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-03 10:16:15
+ * @LastEditTime : 2024-07-24 12:10:34
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -12,7 +12,7 @@
 #define __LED_H
 
 #include "./SYSTEM/sys/sys.h"
-
+#include "./BSP/Communicationheartbeat/Comheartbeat.h"
 #define LED0_GPIO_PORT GPIOA
 #define LED0_GPIO_PIN GPIO_PIN_4
 #define LED0_GPIO_CLK_ENABLE()        \

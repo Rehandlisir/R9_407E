@@ -113,21 +113,20 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			
 			}
 		
-		comheartstate.detect_time++; // 检测完上一次通讯状态后计数
-		if (comheartstate.detect_time > 500) // 距离上一次检测过去了500ms
-		{
-			comheartstate.detect_falge = 1;
-			comheartstate.detect_time = 0; 
-		}
+			comheartstate.detect_time++; // 检测完上一次通讯状态后计数
+			if (comheartstate.detect_time > 1000) // 距离上一次检测过去了1000ms
+			{
+				comheartstate.detect_falge = 1;
+				comheartstate.detect_time = 0; 
+			}
+
 
 		struc_brake.detect_time++;// 检测完上一次通讯状态后计数
-		if (struc_brake.detect_time >100)
+		if (struc_brake.detect_time >200)
 		{
 			struc_brake.detect_falge = 1;
 			struc_brake.detect_time = 0 ;
+			
 		}
-    }
-
-		
-		
+    }		
 }

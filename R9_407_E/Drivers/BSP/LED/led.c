@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-19 16:20:07
+ * @LastEditTime : 2024-07-24 12:09:21
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -123,8 +123,6 @@ void led_init(void)
 Led_State led_state;
 Led_State lastled_state;
 uint8_t doubleflingflage = 1;
-
-
 void led_beepControl(void)
 {  
 	#if defined KEYCONTRONL
@@ -397,6 +395,13 @@ void led_beepControl(void)
  */
 void led_beepControlRK3588(void)
 {
+	if (comheartstate.com_state == Fail)/*若通讯失败则复位所有灯控指令*/
+	{
+		g_slaveReg[82] = 0 ;
+		g_slaveReg[83] = 0 ;
+		g_slaveReg[84] = 0 ;
+		g_slaveReg[85] = 0 ;
+	}
 	lastled_state = None;
 	if (led_state != lastled_state)
 	{

@@ -177,13 +177,13 @@ void Task_ex_handl(void)
 }
 
 void Task_Comsdetect(void)
-{
-	ComheartReset();
+{	
 
 	if (comheartstate.detect_falge)
 	{
-        ComheartDetect(5);
-		comheartstate.detect_falge =0;
-		comheartstate.detect_time = 0;
+		ComheartReset();
+		comheartstate.detect_falge =0;	
 	}
+	ComheartDetect(100);
+	// printf("g_slave[87]:%d,comheartstate.com_state:%d\n",g_slaveReg[87] ,comheartstate.com_state)	;
 }
