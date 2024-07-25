@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-24 12:17:18
+ * @LastEditTime : 2024-07-25 14:59:56
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -632,9 +632,11 @@ void linearactuator(void)
 
     }
 
-    if (CanKeybufReceive[1]!= 0 ) /*按键板有按键按下*/
+    if (CanKeybufReceive[1]!= 0 ) /*按键板有按键按下,需要远程打断远程控车的指令*/
     {
         g_slaveReg[21] = 1 ;
+        g_slaveReg[79]=0;
+        g_slaveReg[80]=0;
     }
     else
     {

@@ -35,7 +35,7 @@ int32_t Value_Resetzero(int32_t min_value, int32_t current_value, int32_t max_va
     return 0;
 }
 
-int32_t slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue)
+int32_t local_slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue)
 {
   static int32_t out_last = 0; // 上一次值
   int32_t out;
@@ -67,7 +67,71 @@ int32_t slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue)
   return out;
 }
 
-int32_t slopelimity(int32_t value, int32_t increvalue,int32_t decreasvalue)
+int32_t local_slopelimity(int32_t value, int32_t increvalue,int32_t decreasvalue)
+{
+  static int32_t out_last = 0; // 上一次值
+  int32_t out;
+
+  /***************** 如果第一次进入，则给 out_last 赋值 ******************/
+  static char fisrt_flag = 1;
+  if (fisrt_flag == 1)
+  {
+    fisrt_flag = 0;
+    out_last = value;
+  }
+  /***************** 正向递增约束 ******************/
+  if ((value - out_last) >= increvalue)
+  {
+    out = out_last + increvalue;
+  }
+  /***************** 负向向递减约束 ******************/
+  else if ((value - out_last) <= (-decreasvalue))
+  {
+    out = out_last - decreasvalue;
+  }
+  /***************** 不满足增量约束条件直接输出 ******************/
+  else
+  {
+    out = value;
+  }
+  out_last = out;
+
+  return out;
+}
+
+int32_t remote_slopelimitx(int32_t value, int32_t increvalue,int32_t decreasvalue)
+{
+  static int32_t out_last = 0; // 上一次值
+  int32_t out;
+
+  /***************** 如果第一次进入，则给 out_last 赋值 ****,**************/
+  static char fisrt_flag = 1;
+  if (fisrt_flag == 1)
+  {
+    fisrt_flag = 0;
+    out_last = value;
+  }
+  /***************** 正向递增约束 ******************/
+  if ((value - out_last) >= increvalue)
+  {
+    out = out_last + increvalue;
+  }
+  /***************** 负向向递减约束 ******************/
+  else if ((value - out_last) <=-decreasvalue)// (-decreasvalue))
+  {
+    out = out_last - decreasvalue;
+  }
+  /***************** 不满足增量约束条件直接输出 ******************/
+  else
+  {
+    out = value;
+  }
+  out_last = out;
+
+  return out;
+}
+
+int32_t remote_slopelimity(int32_t value, int32_t increvalue,int32_t decreasvalue)
 {
   static int32_t out_last = 0; // 上一次值
   int32_t out;
