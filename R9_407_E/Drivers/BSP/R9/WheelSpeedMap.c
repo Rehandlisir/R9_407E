@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-25 15:21:39
+ * @LastEditTime : 2024-07-25 15:35:55
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -561,7 +561,7 @@ void underpanExcute(void)
 	#ifdef REMOTE_DI
 		velPlanIn_remote.adcx = remote_slopelimitx(g_slaveReg[79],35,25);  
 		velPlanIn_remote.adcy = remote_slopelimity(g_slaveReg[80],35,25); 
-		if(g_slaveReg[78])
+		if(g_slaveReg[78] )
 		{
 			velPlanIn_remote.set_Maximum_Strspeed = 2.0 ; // 默认二档速度
 		}
@@ -569,6 +569,7 @@ void underpanExcute(void)
 		{
 			velPlanIn_remote.set_Maximum_Strspeed = 0.0 ; 
 		}
+
 		
 	#endif
 /*本地 或 远程操作 标识判断*/
@@ -586,13 +587,19 @@ void underpanExcute(void)
 		LocalOpflage =0;
 	}
 /*远程可操控条件同时满足:(1)本地未操作 (2)蓝牙处于配对状态 (3)触发了移动端摇杆 (4)摇杆未归位 (5)上下位机通讯OK*/
-	if (LocalOpflage ==0 &&g_slaveReg[78] && (g_slaveReg[79] || g_slaveReg[80] ) && g_slaveReg[81]==0)// && comheartstate.com_state)
+	if (LocalOpflage ==0 &&g_slaveReg[78] && (g_slaveReg[79] || g_slaveReg[80] ) && g_slaveReg[81]==0 && comheartstate.com_state)
 	{
 		RemoteOpfalge =1;
 	}
 	else
 	{
 		RemoteOpfalge =0;
+	}
+/*上下位机通讯失败需要复位远程端数据*/
+    if(comheartstate.com_state == Fail)
+	{
+			g_slaveReg[79] = 0;
+			g_slaveReg[80] = 0;
 	}
 	VelocityLevelSet();
 	brake_excute();
