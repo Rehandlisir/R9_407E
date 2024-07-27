@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-25 15:35:55
+ * @LastEditTime : 2024-07-27 10:46:59
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -54,10 +54,10 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 		// printf("velocity_localpout.underpanVelocity: %f\n",velocity_localpout.underpanVelocity);
 		/*左右轮目标线速度 Km/h*/
 		velocity_localpout.L_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_localpout.underpanVelocity/MAX_YDATA  * \
-		(sin(velocity_localpout.steering_angle-pi/6.0) + cos(velocity_localpout.steering_angle-pi/6.0)) / 1.0 ;
+		(sin(velocity_localpout.steering_angle-pi/12.0) + cos(velocity_localpout.steering_angle-pi/12.0)) / 1.0 ;
 
 		velocity_localpout.R_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_localpout.underpanVelocity/MAX_YDATA * \
-		(sin(velocity_localpout.steering_angle+pi/6.0) - cos(velocity_localpout.steering_angle+pi/6.0)) / 1.0 ;
+		(sin(velocity_localpout.steering_angle+pi/12.0) - cos(velocity_localpout.steering_angle+pi/12.0)) / 1.0 ;
 	#endif 
 	/*模拟型摇杆*/
 	#if defined JOYSTIC_AI
@@ -92,8 +92,8 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 	}
 
 	/*算术平均滤波占空比滤波处理*/
-    velocity_localpout.L_Dutycycle = filterValue(&filter_L,velocity_localpout.L_Dutycycle);
-	velocity_localpout.R_Dutycycle = filterValue(&filter_R,velocity_localpout.R_Dutycycle);
+    velocity_localpout.L_Dutycycle = filterValue_float(&filter_L,velocity_localpout.L_Dutycycle);
+	velocity_localpout.R_Dutycycle = filterValue_float(&filter_R,velocity_localpout.R_Dutycycle);
 
 	/* 占空比约束*/
 	velocity_localpout.L_Dutycycle = slopelimitLDuty(velocity_localpout.L_Dutycycle,0.08,0.1);
@@ -128,28 +128,28 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 	
 	/*向左前转向 */
 //	if (velPlanIn.adcx < 0 && velPlanIn.adcy > 0)
-	if (velocity_localpout.steering_angle > pi/2 && velocity_localpout.steering_angle <(11/12.0)*pi && velPlanIn.adcx!=0 )
+	if (velocity_localpout.steering_angle > pi/2 && velocity_localpout.steering_angle <(5/6.0)*pi && velPlanIn.adcx!=0 )
 	{
 		velocity_localpout.runstate = front_left;
 		drivestate = front_left;
 		g_slaveReg[5] = 6;
 	}
 	/*向右前转向 */
-	if (velocity_localpout.steering_angle > pi*1.0/12.0 && velocity_localpout.steering_angle <1/2.0 *pi && velPlanIn.adcx!=0)
+	if (velocity_localpout.steering_angle > pi*1.0/6.0 && velocity_localpout.steering_angle <1/2.0 *pi && velPlanIn.adcx!=0)
 	{
 		velocity_localpout.runstate = front_right;
 		drivestate = front_right;
 		g_slaveReg[5] = 7;
 	}
 	/*向左后转向 */
-	if (velocity_localpout.steering_angle > 1.5*pi  && velocity_localpout.steering_angle <23/12.0 *pi && velPlanIn.adcx!=0)
+	if (velocity_localpout.steering_angle > 1.5*pi  && velocity_localpout.steering_angle <11/6.0 *pi && velPlanIn.adcx!=0)
 	{
 		velocity_localpout.runstate = back_left;
 		drivestate = back_left;
 		g_slaveReg[5] = 8;
 	}
 	/*向右后转向 */
-	if (velocity_localpout.steering_angle > 11/12.0 *pi  && velocity_localpout.steering_angle <1.5 *pi && velPlanIn.adcx!=0 )
+	if (velocity_localpout.steering_angle > 7/6.0 *pi  && velocity_localpout.steering_angle <1.5 *pi && velPlanIn.adcx!=0 )
 	{
 		velocity_localpout.runstate = back_right;
 		drivestate = back_right;
@@ -157,8 +157,8 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 	}
 	
 	/*原地右转 */
-if ((velocity_localpout.steering_angle >=0 &&  velPlanIn.adcx>0 && velocity_localpout.steering_angle < 1/12.0 *pi) \
-	|| (velocity_localpout.steering_angle >23/12.0*pi  && velocity_localpout.steering_angle <2 *pi))	
+if ((velocity_localpout.steering_angle >=0 &&  velPlanIn.adcx>0 && velocity_localpout.steering_angle < 1/6.0 *pi) \
+	|| (velocity_localpout.steering_angle >11/6.0*pi  && velocity_localpout.steering_angle <2 *pi))	
 	{
 		velocity_localpout.runstate = turnself_right;
 		drivestate = turnself_right;
@@ -166,7 +166,7 @@ if ((velocity_localpout.steering_angle >=0 &&  velPlanIn.adcx>0 && velocity_loca
 	}
 
 	/*原地左转 */
-if (velocity_localpout.steering_angle >11/12.0*pi && velocity_localpout.steering_angle < 13/12.0 *pi)	
+if (velocity_localpout.steering_angle >5/6.0*pi && velocity_localpout.steering_angle < 7/6.0 *pi)	
 	{
 		velocity_localpout.runstate = turnself_left;
 		drivestate = turnself_left;
@@ -206,26 +206,26 @@ if (velocity_localpout.steering_angle >11/12.0*pi && velocity_localpout.steering
 		case turnself_right:
 		    if (g_slaveReg[73] == 1 || g_slaveReg[73] == 2)
 			{
-				LeftMoterMove(0,velocity_localpout.L_Dutycycle*1.5);
-				RightMoterMove(0,velocity_localpout.R_Dutycycle*1.5);
+				LeftMoterMove(0,velocity_localpout.L_Dutycycle);
+				RightMoterMove(0,velocity_localpout.R_Dutycycle);
 			}
 			else /*上位机数据通讯OK后需更改*/
 			{
-				LeftMoterMove(0,velocity_localpout.L_Dutycycle*1.5);
-				RightMoterMove(0,velocity_localpout.R_Dutycycle*1.5);
+				LeftMoterMove(0,velocity_localpout.L_Dutycycle);
+				RightMoterMove(0,velocity_localpout.R_Dutycycle);
 
 			}
 			break;
 		case turnself_left:
 			if (g_slaveReg[73] == 1 || g_slaveReg[73] == 2 )
 			{
-				LeftMoterMove(1,velocity_localpout.L_Dutycycle*2.0);
-				RightMoterMove(1,velocity_localpout.R_Dutycycle*2.0);
+				LeftMoterMove(1,velocity_localpout.L_Dutycycle);
+				RightMoterMove(1,velocity_localpout.R_Dutycycle);
 			}
 			else/*上位机数据通讯OK后需更改*/
 			{
-				LeftMoterMove(1,velocity_localpout.L_Dutycycle*2.0);
-				RightMoterMove(1,velocity_localpout.R_Dutycycle*2.0);
+				LeftMoterMove(1,velocity_localpout.L_Dutycycle);
+				RightMoterMove(1,velocity_localpout.R_Dutycycle);
 			}
 
 			break;
@@ -379,7 +379,7 @@ if (velocity_remotepout.steering_angle >11/12.0*pi && velocity_remotepout.steeri
 void brake_excute(void)
 {
 /*松开抱闸*/
-	if (velPlanIn_local.adcx < -100 || velPlanIn_local.adcx > 100 || velPlanIn_local.adcy > 100 || velPlanIn_local.adcy < -100||\
+	if (velPlanIn_local.adcx < -200 || velPlanIn_local.adcx > 200 || velPlanIn_local.adcy > 200 || velPlanIn_local.adcy < -200||\
 		velPlanIn_remote.adcx < -100 || velPlanIn_remote.adcx > 100 || velPlanIn_remote.adcy > 100 || velPlanIn_remote.adcy < -100)
 	{
 			brake(0);	
@@ -387,14 +387,18 @@ void brake_excute(void)
 	}	
 	else
 /*锁住抱闸*/
-	{
-		brakeflage++;
+	// {
+	//   if(struc_brake.detect_falge)
+	//   {
+	{	brakeflage++;
 		if (brakeflage > 100)
 		{ 
 			brake(1);
 			brakeflage = 0;
 		}
-	}
+	}	
+	// 	struc_brake.detect_falge = 0;
+
 }
 
 /**
@@ -554,7 +558,7 @@ void underpanExcute(void)
 			/*上位机显示 摇杆数据*/
 		g_slaveReg[10] =  mlxdata.xdata;
     	g_slaveReg[11] =  mlxdata.ydata;
-		printf("mlxdataX:%d,mlxdataY:%d\n",g_slaveReg[10],g_slaveReg[11]);
+		// printf("mlxdataX:%d,mlxdataY:%d\n",g_slaveReg[10],g_slaveReg[11]);
 		velPlanIn_local.adcx = local_slopelimitx(mlxdata.xdata,35,25);  
 		velPlanIn_local.adcy = local_slopelimity(mlxdata.ydata,35,25);  	  
 	#endif

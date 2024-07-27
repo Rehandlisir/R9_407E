@@ -122,7 +122,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 
 		struc_brake.detect_time++;// 检测完上一次通讯状态后计数
-		if (struc_brake.detect_time >200)
+		if (struc_brake.detect_time >2000)
 		{
 			struc_brake.detect_falge = 1;
 			struc_brake.detect_time = 0 ;

@@ -18,7 +18,8 @@
         "hostdap21.h": "c",
         "comheartbeat.h": "c",
         "btim.h": "c",
-        "stm32f4xx_hal.h": "c"
+        "stm32f4xx_hal.h": "c",
+        "variant": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "idf.portWin": "COM11",

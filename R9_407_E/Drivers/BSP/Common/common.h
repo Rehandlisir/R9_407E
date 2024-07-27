@@ -71,6 +71,7 @@ typedef struct _mcl_parabola_poly_intpol_st {
 
 typedef struct {
     double window[WINDOW_SIZE];
+	int16_t window_int[WINDOW_SIZE];
     uint8_t index;
 } AverageFilter;
 
@@ -90,7 +91,8 @@ double slopelimitLDuty(double value, double increvalue,double decreasvalue);
 double slopelimitRDuty(double value, double increvalue,double decreasvalue);	
 float Value_limitf(float min_value ,float current_value ,float max_value);
 void initializeFilter(AverageFilter* filter);
-double filterValue(AverageFilter* filter, double input);
+double filterValue_float(AverageFilter *filter, double input);
+int16_t filterValue_int(AverageFilter *filter, int16_t input);
 void filterInit(void);
 /* cubic polynomial interpolation */
 extern void mcl_cubic_poly_intpol_st_init(mcl_cubic_poly_intpol_st *cubic_poly_intpol, float intpol_ts);

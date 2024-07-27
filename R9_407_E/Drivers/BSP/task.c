@@ -36,7 +36,7 @@ void Hard_devInit(void)
 		Host_ModbusDap21_Init();              /*与DYPA21通讯*/
 		SlaveModbus_Init();                  /*与RK3588作为从机通讯*/
 		can_init(CAN_SJW_1TQ, CAN_BS2_6TQ, CAN_BS1_7TQ, 6, CAN_MODE_NORMAL);  /* CAN初始化, 正常模式, 波特率500Kbps */
-		iwdg_init(IWDG_PRESCALER_64, 1000);      /* 预分频数为64,重载值为1000,溢出时间约为2s */
+		iwdg_init(IWDG_PRESCALER_64, 1500);      /* 预分频数为64,重载值为1500,溢出时间约为3s */
 		filterInit();                    /*初始化滤波器*/
 		vSetUpMlx90393();
 		g_slaveReg[0] = 0x68;//本机设备作为Modbus从机时的设备ID
@@ -86,6 +86,7 @@ void Task_GetADC_AllData(void)
 	// printf("lift_current:%d,pedestal_current:%d,backboard_current:%d,legangle_current:%d,leglength_current:%d,support_current:%d\n",adcdata.lift_current,adcdata.pedestal_current,adcdata.backboard_current,adcdata.legangle_current,adcdata.leglength_current,adcdata.support_current);
 	// printf("adcdata.l_current :%d, adcdata.r_current %d\n",adcdata.l_current,adcdata.r_current);
 	// printf("Xbase:%d,Ybase:%d,xdata:%d,ydata:%d\t\n",adcdata.adc_xbase,adcdata.adc_ybase,adcdata.adc_x,adcdata.adc_y);
+	// printf("adcdata.A1V:%f,adcdata.A2V:%f,adcdata.B1V:%f,adcdata.B2V:%f\n",adcdata.A1V,adcdata.A2V,adcdata.B1V,adcdata.B2V);
 	
 }
 

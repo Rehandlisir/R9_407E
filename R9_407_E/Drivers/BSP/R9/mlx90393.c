@@ -2,8 +2,8 @@
 #include "./SYSTEM/delay/delay.h"
 
 MLX90393Data mlxdata;
-// #define MLX2350
-#define MLX2322
+#define MLX2350 // 首台机
+// #define MLX2322
 
 void MLX90393_IIC_Init(void)
 {
@@ -371,8 +371,8 @@ void vInMeasurementNormal(void)
     mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
     mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
     /*摇杆有效数据段滤波*/
-    mlxdata.xdata  =(int16_t)filterValue(&filter_ADCX, mlxdata.xdata );
-    mlxdata.ydata  = (int16_t)filterValue(&filter_ADCY, mlxdata.ydata);
+    mlxdata.xdata  =filterValue_int(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata  =filterValue_int(&filter_ADCY, mlxdata.ydata);
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
     delay_ms(2);
 
@@ -385,8 +385,8 @@ void vInMeasurementNormal(void)
     mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
     mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
     /*摇杆有效数据段滤波*/
-    mlxdata.xdata  = filterValue(&filter_ADCX, mlxdata.xdata );
-    mlxdata.ydata = filterValue(&filter_ADCY, mlxdata.ydata);
+    mlxdata.xdata  = filterValue_int(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata = filterValue_int(&filter_ADCY, mlxdata.ydata);
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
     delay_ms(2);   
 #endif  

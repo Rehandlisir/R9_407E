@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-24 12:11:19
+ * @LastEditTime : 2024-07-26 11:16:44
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 
@@ -269,7 +269,7 @@ typedef struct
 } ACTORLIMITPARA;
 
 
-#define SEAT_LIFTDROPRATIO 0.865   // 座板角度B2/B1底盘举升
+#define SEAT_LIFTDROPRATIO 0.80   // 座板角度B2/B1底盘举升
 
 /*************************电机驱动变量*****************************/
 extern TIM_HandleTypeDef g_time1_pwm_chy_handle;  /* 靠背推杆 */

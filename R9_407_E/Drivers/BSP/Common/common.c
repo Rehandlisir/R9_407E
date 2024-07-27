@@ -235,6 +235,7 @@ void initializeFilter(AverageFilter *filter)
   for (int i = 0; i < WINDOW_SIZE; ++i)
   {
     filter->window[i] = 0;
+    filter->window_int[i] = 0;
   }
   filter->index = 0;
 }
@@ -247,8 +248,8 @@ void filterInit(void)
 	initializeFilter(&filter_ADCY);
 }
 
-// 算术平均滤波函数
-double filterValue(AverageFilter *filter, double input)
+// 浮点数算术平均滤波函数
+double filterValue_float(AverageFilter *filter, double input)
 {
   // 更新缓存区
   filter->window[filter->index] = input;
@@ -261,6 +262,24 @@ double filterValue(AverageFilter *filter, double input)
     sum += filter->window[i];
   }
   double average = sum / WINDOW_SIZE;
+
+  return average;
+}
+
+// 整形数算术平均滤波函数
+int16_t filterValue_int(AverageFilter *filter, int16_t input)
+{
+  // 更新缓存区
+  filter->window_int[filter->index] = input;
+  filter->index = (filter->index + 1) % WINDOW_SIZE;
+
+  // 计算平均值
+  int32_t sum = 0.0;
+  for (int i = 0; i < WINDOW_SIZE; ++i)
+  {
+    sum += filter->window_int[i];
+  }
+  int16_t average = (int16_t)(sum / WINDOW_SIZE);
 
   return average;
 }

@@ -198,22 +198,22 @@ void getadc3Data(void)
 		if (j == 6)
 		{	
 			adcdata.A1_ADC = adc3_alldata;
-			adcdata.A1V =  adcdata.A1_ADC * 3.3 /4096 * 21.0 ;
+			adcdata.A1V = (double) (adcdata.A1_ADC * 3.3 /4096 * 21.0) ;
 		}
 		if (j == 7)
 		{	
 			adcdata.A2_ADC = adc3_alldata;
-			adcdata.A2V =  adcdata.A2_ADC * 3.3 /4096 * 21.0 ;
+			adcdata.A2V =  (double)(adcdata.A2_ADC * 3.3 /4096 * 21.0) ;
 		}
 		if (j == 8)
 		{
 			adcdata.B1_ADC = adc3_alldata;
-			adcdata.B1V =  adcdata.B1_ADC * 3.3 /4096 * 21.0 ;
+			adcdata.B1V =  (double)(adcdata.B1_ADC * 3.3 /4096 * 21.0 );
 		}
 		if (j == 9)
 		{
 			adcdata.B2_ADC = adc3_alldata;
-			adcdata.B2V =  adcdata.B2_ADC * 3.3 /4096 * 21.0 ;
+			adcdata.B2V =  (double)(adcdata.B2_ADC * 3.3 /4096 * 21.0) ;
 		}
 		// printf("adcdata.A1V :%f,adcdata.A2V:%f,adcdata.B1V:%f ,adcdata.B2V:%f\n",\
 		adcdata.A1V,adcdata.A2V ,adcdata.B1V,adcdata.B2V);

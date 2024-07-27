@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/CodeV1.1/R9_407_V1.1/R9_407_Demo1/Drivers/BSP/R9/brake.h
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/brake.h
  * @Description  :  brake control
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-06-21 15:39:34
+ * @LastEditTime : 2024-07-25 16:07:28
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 
@@ -57,7 +57,7 @@
 
 typedef struct 
 {
-    uint8_t  detect_time; /*检测计时 该设置需大于 200ms*/
+    uint16_t  detect_time; /*检测计时 该设置需大于 200ms*/
     uint8_t detect_falge; /*需检测标志位*/
    
 }STRUCT_BRAKE;
